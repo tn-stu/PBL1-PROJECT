@@ -67,7 +67,8 @@ class User{
 
 class Admin: public User{
 	public:
-	Admin(string Name, string password): User(Name, password){};
+	Admin(string Name, string ID, string Address, string Email, string Username, string Password)
+    : User(Name, ID, Address, Email, Username, Password) {};
 };
 class Librarysystem{
 	private:
