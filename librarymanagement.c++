@@ -81,13 +81,12 @@ int main(){
     int choice;
     
     do {
-       
 	    cout<<"=================================================="<<endl;
-	    cout<<"||1.Dang nhap voi tu cach la admin              ||"<<endl;
+	    cout<<"||1.Admin                                       ||"<<endl;
 		cout<<"||----------------------------------------------||"<<endl;
-        cout<<"||2.Dang nhap voi tu cach la nguoi dung         ||"<<endl;                          
+        cout<<"||2.Reader                                      ||"<<endl;                          
 	    cout<<"=================================================="<<endl;
-        cout<<"Lua chon cua ban la: ";
+        cout<<"Ban la: ";
         cin >> choice;
         if (choice ==1){
 			string nameadmin, password;
