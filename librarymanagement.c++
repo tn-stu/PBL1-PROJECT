@@ -7,12 +7,29 @@
 using namespace std;
 class User{
 	protected:
-		string Name, password;
+		string Name;
+		string ID;
+		string Address;
+		string Phonenumber;
+		string Password;
+		string Email;
+
+		string Username;
+		string Password;
+
+		vector<string> BorrowedBook;
+		double Fine;
+		bool Status;
 	public:	
-	User(string Name, string password): Name(Name), password(password){};
-	string getName() const{ return Name; }
-	string getPassword() const{ return password; }
+	User(string Name, string ID, string Address, string Email, string Username, string Password): Name(Name), ID(ID), Address(Address), Email(Email), Username(Username), Password(Password){};
+	string getName()const { return Name; }
+	string getID()const { return ID; }
+	string getAddress()const { return Address; }
+	string getEmail()const { return Email; }
+	string getUsername()const { return Username; }
+    string getEmail()const { return Password; }
 };
+
 class Admin: public User{
 	public:
 	Admin(string Name, string password): User(Name, password){};
