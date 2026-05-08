@@ -11,7 +11,6 @@ class User{
 		string ID;
 		string Address;
 		string Phonenumber;
-		string Password;
 		string Email;
 
 		string Username;
@@ -21,13 +20,34 @@ class User{
 		double Fine;
 		bool Status;
 	public:	
-	User(string Name, string ID, string Address, string Email, string Username, string Password): Name(Name), ID(ID), Address(Address), Email(Email), Username(Username), Password(Password){};
-	string getName()const { return Name; }
-	string getID()const { return ID; }
-	string getAddress()const { return Address; }
-	string getEmail()const { return Email; }
-	string getUsername()const { return Username; }
-    string getEmail()const { return Password; }
+	User(string Name, string ID, string Address, string Email, string Username, string Password): Name(Name), ID(ID), Address(Address), Email(Email), Username(Username), Password(Password){
+		Fine = 0;
+		Status = true;
+	};
+	string getName() const { return Name; }
+	string getID() const { return ID; }
+	string getAddress() const { return Address; }
+	string getEmail() const { return Email; }
+	string getUsername() const { return Username; }
+    string getPassword() const { return Password; }
+	void setName(const string Name) {
+        this-> Name = Name; 
+        }
+	void setID(const string ID) {
+        this-> ID = ID; 
+        }
+	void setAddress(const string Address) {
+        this-> Address = Address; 
+        }
+	void setEmail(const string Email) {
+        this-> Email = Email; 
+        }
+	void setUsername(const string Username) {
+        this-> Username = Username; 
+        }
+	void setPassword(const string Password) {
+        this-> Password = Password; 
+        }
 };
 
 class Admin: public User{
