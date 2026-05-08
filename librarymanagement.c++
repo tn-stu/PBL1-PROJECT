@@ -5,12 +5,7 @@
 #include <vector> 
 #include <iomanip>
 using namespace std;
-void PrintTable(int i){
-	cout << "+";
-	for(int j = 0; j < i; j++){
-		cout << "-";
-	}
-};
+
 class Book{
 	private:
 	    string BookName;
@@ -83,7 +78,7 @@ int main(){
     
     do {
 	    cout<<"=================================================="<<endl;
-	    cout<<"||1.Admin                                       ||"<<endl;
+	    cout<<"||1. Admin                                      ||"<<endl;
 		cout<<"||----------------------------------------------||"<<endl;
         cout<<"||2.Reader                                      ||"<<endl;                          
 	    cout<<"=================================================="<<endl;
@@ -96,5 +91,13 @@ int main(){
 			cout<<endl;
 			cout<<"Mat khau admin: ";getline(cin, password);
 			
-		}}
+		}
+	if (choice == 2){
+			string nameuser, password;
+			cin.ignore();
+			cout<<"Ten dang nhap nguoi dung: ";getline(cin, nameuser);
+			cout<<endl;
+			cout<<"Mat khau nguoi dung: ";getline(cin, password);
+		}
+	}
      while (choice != 7);}
