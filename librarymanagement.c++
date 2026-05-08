@@ -5,6 +5,20 @@
 #include <vector> 
 #include <iomanip>
 using namespace std;
+class Books{
+	private:
+	    string BookName;
+	    string Author;
+	    int Quantity;
+	public:
+	    Books(string BookName, string Author, int Quantity): BookName(BookName), Author(Author), Quantity(Quantity){}
+		string getBookName() const{ return BookName; }
+		string getAuthor() const { return Author; }
+		int getQuantity() const { return Quantity; }
+		void setQuantity(int Quantity){
+			this->Quantity = Quantity;
+	}
+};
 class User{
 	protected:
 		string Name;
@@ -54,7 +68,7 @@ class Admin: public User{
 	public:
 	Admin(string Name, string password): User(Name, password){};
 };
-class Lybrarysystem{
+class Librarysystem{
 	private:
 		vector<Admin> Admins;
 		vector<User> Users;
