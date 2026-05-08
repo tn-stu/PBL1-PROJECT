@@ -11,13 +11,13 @@ void PrintTable(int i){
 		cout << "-";
 	}
 };
-class Books{
+class Book{
 	private:
 	    string BookName;
 	    string Author;
 	    int Quantity;
 	public:
-	    Books(string BookName, string Author, int Quantity): BookName(BookName), Author(Author), Quantity(Quantity){}
+	    Book(string BookName, string Author, int Quantity): BookName(BookName), Author(Author), Quantity(Quantity){}
 		string getBookName() const{ return BookName; }
 		string getAuthor() const { return Author; }
 		int getQuantity() const { return Quantity; }
@@ -62,6 +62,7 @@ class User{
 	void setPassword(const string Password) {
         this-> Password = Password; 
         }
+		friend class Admin;
 };
 
 class Admin: public User{
