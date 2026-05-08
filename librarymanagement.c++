@@ -5,6 +5,12 @@
 #include <vector> 
 #include <iomanip>
 using namespace std;
+void PrintTable(int i){
+	cout << "+";
+	for(int j = 0; j < i; j++){
+		cout << "-";
+	}
+};
 class Books{
 	private:
 	    string BookName;
@@ -15,7 +21,7 @@ class Books{
 		string getBookName() const{ return BookName; }
 		string getAuthor() const { return Author; }
 		int getQuantity() const { return Quantity; }
-		void setQuantity(int Quantity){
+		void setQuantity(const int Quantity){
 			this->Quantity = Quantity;
 	}
 };
@@ -44,12 +50,6 @@ class User{
 	string getEmail() const { return Email; }
 	string getUsername() const { return Username; }
     string getPassword() const { return Password; }
-	void setName(const string Name) {
-        this-> Name = Name; 
-        }
-	void setID(const string ID) {
-        this-> ID = ID; 
-        }
 	void setAddress(const string Address) {
         this-> Address = Address; 
         }
