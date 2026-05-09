@@ -35,18 +35,23 @@ class User{
 		double Fine;
 		bool Status;
 	public:	
-	User(string Name, string ID, string Address, string Email, string Username, string Password): Name(Name), ID(ID), Address(Address), Email(Email), Username(Username), Password(Password){
+	User(string Name, string ID, string Address, string Phonenumber, string Email, string Username, string Password): 
+	Name(Name), ID(ID), Address(Address), Phonenumber(Phonenumber), Email(Email), Username(Username), Password(Password){
 		Fine = 0;
 		Status = true;
 	};
 	string getName() const { return Name; }
 	string getID() const { return ID; }
 	string getAddress() const { return Address; }
+	string getPhonenumber() const { return Phonenumber; }
 	string getEmail() const { return Email; }
 	string getUsername() const { return Username; }
     string getPassword() const { return Password; }
 	void setAddress(const string Address) {
         this-> Address = Address; 
+        }
+	void setPhonenumber(const string Phonenumber) {
+        this-> Phonenumber = Phonenumber; 
         }
 	void setEmail(const string Email) {
         this-> Email = Email; 
@@ -57,23 +62,43 @@ class User{
 	void setPassword(const string Password) {
         this-> Password = Password; 
         }
-		friend class Admin;
+		friend class Admin; //Chi cho Admin truy cap vao private
 };
 
 class Admin: public User{
 	private:
-	Admin(string Name, string ID, string Address, string Email, string Username, string Password)
-    : User(Name, ID, Address, Email, Username, Password) {};
+	Admin(string Name, string ID, string Address,string Phonenumber, string Email, string Username, string Password)
+    : User(Name, ID, Address, Phonenumber, Email, Username, Password) {};
+	friend class LibrarySystem; //Chi cho Librarysystem truy cap vao private
 };
-class Librarysystem{
+class LibrarySystem{
 	private:
 		vector<Admin> Admins;
 		vector<User> Users;
-	void Adminaccount(const Admin& a){
-		Admins.push_back(a);
+		vector<Book> Books;
+	//Ham tao Admin chi co LibrarySystem moi tao duoc -> encapsulation
+	void CreateAdmin(string Name, string ID, string Address, string Phonenumber, string Email, string Username, string Password){
+        Admins.push_back(Admin(Name, ID, Address, Phonenumber, Email, Username, Password));
+    }
+	//Kiem tra User co ton tai hay chua
+	bool UserCheck(const string& Username){
+		for(const auto& user : Users){ //range-based for loop
+			if(user.getUsername() == Username){
+				return true;
+			}
+		}
+		return false;
 	}
-	//Kiem tra tai khoan da ton tai hay chua
-	bool CheckAdmin(const string& AdminName, const string& Password){
+	//Dang ky cho User
+	bool UserSignUp(string Name, string ID, string Address, string Phonenumber, string Email, string Username, string Password){
+		if(UserCheck(Username)){
+			return false;
+		}
+		Users.push_back(User(Name, ID, Address, Phonenumber, Email, Username, Password));
+        return true;
+	}
+	//Dang nhap
+	bool AdminLogin(const string& AdminName, const string& Password){
 		for(const auto& admin : Admins){ //range-based for loop
 			if(admin.getUsername() == AdminName && admin.getPassword() == Password){
 				return true;
@@ -81,8 +106,8 @@ class Librarysystem{
 		}
 		return false;
 	}
-	bool CheckUser(const string& Username, const string& Password){
-		for(const auto& user : Users){
+	bool UserLogin(const string& Username, const string& Password){
+		for(const auto& user : Users){ //range-based for loop
 			if(user.getUsername() == Username && user.getPassword() == Password){
 				return true;
 			}
@@ -129,4 +154,4 @@ int main(){
 			cout<<"Mat khau: ";getline(cin, Password);
 		}
 	}
-     while (choice_1 != 7);}
+     while (choice_1 <= 2);}
