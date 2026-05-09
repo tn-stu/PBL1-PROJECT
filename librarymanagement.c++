@@ -5,7 +5,6 @@
 #include <vector> 
 #include <iomanip>
 using namespace std;
-
 class Book{
 	private:
 	    string BookName;
@@ -76,6 +75,7 @@ class LibrarySystem{
 		vector<Admin> Admins;
 		vector<User> Users;
 		vector<Book> Books;
+	public:
 	//Ham tao Admin chi co LibrarySystem moi tao duoc -> encapsulation
 	void CreateAdmin(string Name, string ID, string Address, string Phonenumber, string Email, string Username, string Password){
         Admins.push_back(Admin(Name, ID, Address, Phonenumber, Email, Username, Password));
@@ -117,6 +117,9 @@ class LibrarySystem{
 
 };
 int main(){
+	LibrarySystem lib;
+	// ===== TAO ADMIN MAC DINH =====
+    lib.CreateAdmin("Admin", "000000", "Da Nang", "0123456789", "admin@gmail.com", "admin", "123");
     int choice_1, choice_2, choice_3, choice_4;
     do {
 		cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
@@ -146,6 +149,12 @@ int main(){
 			getline(cin, AdminName);
 			cout<<"Mat khau: ";
 			getline(cin, Password);
+			if(lib.AdminLogin(AdminName,Password)){
+				cout << "Dang nhap thanh cong!" << endl;
+			}
+			else {
+				cout << "Sai tai khoan Admin!" << endl;
+			}
 		}
 	if (choice_1 == 2){
 			string Username, Password;
