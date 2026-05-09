@@ -118,8 +118,10 @@ class LibrarySystem{
 };
 int main(){
 	LibrarySystem lib;
+	//-------------------------------------------
 	// Tao tai khoan Admin mac dinh de test 
     lib.CreateAdmin("Admin", "000000", "Da Nang", "0123456789", "admin@gmail.com", "admin", "123");
+	//-------------------------------------------
     int choice_1, choice_2, choice_3, choice_4;
     do {
 		cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
