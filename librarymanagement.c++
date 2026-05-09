@@ -151,6 +151,41 @@ int main(){
 			getline(cin, Password);
 			if(lib.AdminLogin(AdminName,Password)){
 				cout << "Dang nhap thanh cong!" << endl;
+				do {
+		cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
+	    cout<<"======     ======  ========  ======    ==  ===     ==="<<endl;
+	    cout<<"=== ===   === ===  ===       === ===   ==  ===     ==="<<endl;
+	    cout<<"===  === ===  ===  ========  ===  ===  ==  ===     ==="<<endl;
+	    cout<<"===   =====   ===  ========  ===   === ==  ===     ==="<<endl;
+	    cout<<"===    ===    ===  ===       ===    =====  ===     ==="<<endl;
+	    cout<<"===     =     ===  ========  ===     ====  ====   ===="<<endl;
+	    cout<<"===           ===  ========  ===      ===   ========= "<<endl;
+	    cout<<"------------------------------------------------------"<<endl;
+		cout<<"======================================================"<<endl;
+	    cout<<"||1.Them sach moi                                   ||"<<endl;
+	    cout<<"||--------------------------------------------------||"<<endl;
+        cout<<"||2.Sua thong tin sach                              ||"<<endl;
+	    cout<<"||--------------------------------------------------||"<<endl;
+	    cout<<"||3.Xoa sach                                        ||"<<endl;
+    	cout<<"||--------------------------------------------------||"<<endl;
+	    cout<<"||4.Thong ke luong sach hien co                     ||"<<endl;
+	    cout<<"||--------------------------------------------------||"<<endl;
+        cout<<"||5.Xem danh sach tat ca tai khoan nguoi dung       ||"<<endl;
+	    cout<<"||--------------------------------------------------||"<<endl;
+        cout<<"||6.Xoa tai khoan vi pham                           ||"<<endl;
+	    cout<<"||--------------------------------------------------||"<<endl;
+	    cout<<"||7.Xem danh sach sach dang bi muon qua han         ||"<<endl; 
+		cout<<"||--------------------------------------------------||"<<endl;
+		cout<<"||8.Duyet yeu cau muon sach                         ||"<<endl; 
+		cout<<"||--------------------------------------------------||"<<endl;
+		cout<<"||9.Xac nhan nguoi dung tra sach                    ||"<<endl;
+		cout<<"||--------------------------------------------------||"<<endl;
+		cout<<"||10.Thoat                                          ||"<<endl;
+	    cout<<"======================================================"<<endl;
+        cout<<"Lua chon cua ban la: ";
+        cin >> choice_2;
+	            }
+				while(choice_2 < 1);
 			}
 			else {
 				cout << "Sai tai khoan Admin!" << endl;
