@@ -74,30 +74,41 @@ class Librarysystem{
 	}
 };
 int main(){
-    int choice;
-    
+    int choice_1, choice_2, choice_3, choice_4;
     do {
-	    cout<<"=================================================="<<endl;
-	    cout<<"||1. Admin                                      ||"<<endl;
-		cout<<"||----------------------------------------------||"<<endl;
-        cout<<"||2.Reader                                      ||"<<endl;                          
-	    cout<<"=================================================="<<endl;
-        cout<<"Ban la: ";
-        cin >> choice;
-        if (choice ==1){
-			string nameadmin, password;
+		cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
+	    cout<<"======     ======  ========  ======    ==  ===     ==="<<endl;
+	    cout<<"=== ===   === ===  ===       === ===   ==  ===     ==="<<endl;
+	    cout<<"===  === ===  ===  ========  ===  ===  ==  ===     ==="<<endl;
+	    cout<<"===   =====   ===  ========  ===   === ==  ===     ==="<<endl;
+	    cout<<"===    ===    ===  ===       ===    =====  ===     ==="<<endl;
+	    cout<<"===     =     ===  ========  ===     ====  ====   ===="<<endl;
+	    cout<<"===           ===  ========  ===      ===   ========= "<<endl;
+	    cout<<"------------------------------------------------------"<<endl;
+	    cout<<"======================================================"<<endl;
+	    cout<<"||1.Dang nhap voi tu cach Admin                     ||"<<endl;
+		cout<<"||--------------------------------------------------||"<<endl;
+        cout<<"||2.Dang nhap voi tu cach User                      ||"<<endl;  
+		cout<<"||--------------------------------------------------||"<<endl;
+		cout<<"||3.Dang ky tai khoan                               ||"<<endl; 
+		cout<<"||--------------------------------------------------||"<<endl;   
+		cout<<"||4.Thoat                                           ||"<<endl;              
+	    cout<<"======================================================"<<endl;
+        cout<<"Lua chon cua ban: ";
+        cin >> choice_1;
+        if (choice_1 == 1){
+			string AdminName, Password;
 			cin.ignore();
-			cout<<"Ten dang nhap admin: ";getline(cin, nameadmin);
-			cout<<endl;
-			cout<<"Mat khau admin: ";getline(cin, password);
-			
+			cout<<"Ten dang nhap: ";
+			getline(cin, AdminName);
+			cout<<"Mat khau: ";
+			getline(cin, Password);
 		}
-	if (choice == 2){
-			string nameuser, password;
+	if (choice_1 == 2){
+			string Username, Password;
 			cin.ignore();
-			cout<<"Ten dang nhap nguoi dung: ";getline(cin, nameuser);
-			cout<<endl;
-			cout<<"Mat khau nguoi dung: ";getline(cin, password);
+			cout<<"Ten dang nhap: ";getline(cin, Username);
+			cout<<"Mat khau: ";getline(cin, Password);
 		}
 	}
-     while (choice != 7);}
+     while (choice_1 != 7);}
