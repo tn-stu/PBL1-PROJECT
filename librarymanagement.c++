@@ -170,11 +170,11 @@ int main(){
     	cout<<"||--------------------------------------------------||"<<endl;
 	    cout<<"||4.Thong ke luong sach hien co                     ||"<<endl;
 	    cout<<"||--------------------------------------------------||"<<endl;
-        cout<<"||5.Xem danh sach tat ca tai khoan nguoi dung       ||"<<endl;
+        cout<<"||5.Xem danh sach tai khoan User                    ||"<<endl;
 	    cout<<"||--------------------------------------------------||"<<endl;
-        cout<<"||6.Xoa tai khoan vi pham                           ||"<<endl;
+        cout<<"||6.Xoa tai khoan User vi pham                      ||"<<endl;
 	    cout<<"||--------------------------------------------------||"<<endl;
-	    cout<<"||7.Xem danh sach sach dang bi muon qua han         ||"<<endl; 
+	    cout<<"||7.Thong ke sach dang bi muon qua han              ||"<<endl; 
 		cout<<"||--------------------------------------------------||"<<endl;
 		cout<<"||8.Duyet yeu cau muon sach                         ||"<<endl; 
 		cout<<"||--------------------------------------------------||"<<endl;
@@ -194,8 +194,45 @@ int main(){
 	if (choice_1 == 2){
 			string Username, Password;
 			cin.ignore();
-			cout<<"Ten dang nhap: ";getline(cin, Username);
-			cout<<"Mat khau: ";getline(cin, Password);
+			cout<<"Ten dang nhap: ";
+			getline(cin, Username);
+			cout<<"Mat khau: ";
+			getline(cin, Password);
+			if(lib.UserLogin(Username,Password)){
+				cout << "Dang nhap thanh cong!" << endl;
+			    do {
+		cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
+	    cout<<"======     ======  ========  ======    ==  ===     ==="<<endl;
+	    cout<<"=== ===   === ===  ===       === ===   ==  ===     ==="<<endl;
+	    cout<<"===  === ===  ===  ========  ===  ===  ==  ===     ==="<<endl;
+	    cout<<"===   =====   ===  ========  ===   === ==  ===     ==="<<endl;
+	    cout<<"===    ===    ===  ===       ===    =====  ===     ==="<<endl;
+	    cout<<"===     =     ===  ========  ===     ====  ====   ===="<<endl;
+	    cout<<"===           ===  ========  ===      ===   ========= "<<endl;
+	    cout<<"------------------------------------------------------"<<endl;
+		cout<<"======================================================"<<endl;
+	    cout<<"||1.Thong ke cac loai sach hien co                  ||"<<endl;
+	    cout<<"||--------------------------------------------------||"<<endl;
+        cout<<"||2.Tim sach theo ten hoac ID                       ||"<<endl;
+	    cout<<"||--------------------------------------------------||"<<endl;
+	    cout<<"||3.Gui yeu cau muon sach                           ||"<<endl;
+	    cout<<"||--------------------------------------------------||"<<endl;
+        cout<<"||4.Danh sach sach dang muon va ngay tra            ||"<<endl;
+	    cout<<"||--------------------------------------------------||"<<endl;
+        cout<<"||5.Doi mat khau                                    ||"<<endl;
+	    cout<<"||--------------------------------------------------||"<<endl;
+	    cout<<"||6.Chinh sua thong tin ca nhan                     ||"<<endl;
+		cout<<"||--------------------------------------------------||"<<endl;
+	    cout<<"||7.Thoat                                           ||"<<endl;
+	    cout<<"======================================================"<<endl;
+        cout<<"Lua chon cua ban la: ";
+        cin >> choice_3;
+				}
+		        while(choice_3 < 1);
+			}
+			else{
+				cout << "Sai tai khoan User!" << endl;
+			}
 		}
 	}
      while (choice_1 <= 2);}
