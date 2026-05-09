@@ -62,7 +62,7 @@ class User{
 	void setPassword(const string Password) {
         this-> Password = Password; 
         }
-		friend class Admin; //Chi cho Admin truy cap vao private
+	friend class Admin; //Chi cho Admin truy cap vao private
 };
 
 class Admin: public User{
