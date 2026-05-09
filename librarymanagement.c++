@@ -61,7 +61,7 @@ class User{
 };
 
 class Admin: public User{
-	public:
+	private:
 	Admin(string Name, string ID, string Address, string Email, string Username, string Password)
     : User(Name, ID, Address, Email, Username, Password) {};
 };
@@ -72,6 +72,24 @@ class Librarysystem{
 	void Adminaccount(const Admin& a){
 		Admins.push_back(a);
 	}
+	//Kiem tra tai khoan da ton tai hay chua
+	bool CheckAdmin(const string& AdminName, const string& Password){
+		for(const auto& admin : Admins){ //range-based for loop
+			if(admin.getUsername() == AdminName && admin.getPassword() == Password){
+				return true;
+			}
+		}
+		return false;
+	}
+	bool CheckUser(const string& Username, const string& Password){
+		for(const auto& user : Users){
+			if(user.getUsername() == Username && user.getPassword() == Password){
+				return true;
+			}
+		}
+		return false;
+	}
+
 };
 int main(){
     int choice_1, choice_2, choice_3, choice_4;
