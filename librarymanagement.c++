@@ -41,7 +41,7 @@ class Librarysystem{
 	public:
 	void Adminaccount(const Admin& a){
 		Admins.push_back(a);}
-	//kiem tra tai khoan admin da ton tai chua
+	//check account để login
 	bool CheckAdmin(const string& nameadmin, const string& password){
 		for (const auto& admin : Admins) {
 			if (admin.getName() == nameadmin && admin.getPassword() == password) {
@@ -59,6 +59,7 @@ class Librarysystem{
 		return false;
 	}
 	bool Add_New_Account(const string& nameuser, const string& password, const string& fullname, const string& phonenumber, const string& email){
+		//check account để sign up
 		for (const auto& user : Users) {
 			if (user.getName() == nameuser) {
 				cout << "Ten dang nhap da ton tai. Vui long chon ten dang nhap khac!" << endl;
@@ -137,24 +138,24 @@ int main(){
     
     do {
         cout<<"==========================================="<<endl;
-	    cout<<"||1.Dang nhap voi tu cach la admin       ||"<<endl;
+	    cout<<"||1.Dang nhap voi tu cach Admin          ||"<<endl;
 		cout<<"||---------------------------------------||"<<endl;
-        cout<<"||2.Dang nhap voi tu cach la nguoi dung  ||"<<endl;
+        cout<<"||2.Dang nhap voi tu cach User           ||"<<endl;
 		cout<<"||---------------------------------------||"<<endl;
-        cout<<"||3.Dang ky tai khoan                    ||"<<endl;  
+        cout<<"||3.Dang ky                              ||"<<endl;  
 		cout<<"||---------------------------------------||"<<endl;
         cout<<"||4.Thoat                                ||"<<endl;                          
 	    cout<<"==========================================="<<endl;
         cout<<"Lua chon cua ban la: ";
         cin >> choice1;
 		//Dang nhap tk admin
-        if (choice1 ==1){
+        if (choice1 == 1){
 			string name_admin, password_admin;
 			cin.ignore();
-			cout<<"Ten dang nhap admin: ";getline(cin, name_admin);
-			cout<<"Mat khau admin: ";getline(cin, password_admin);
+			cout<<"Ten dang nhap: ";getline(cin, name_admin);
+			cout<<"Mat khau: ";getline(cin, password_admin);
 			if(lib.CheckAdmin(name_admin, password_admin)) {
-				cout << "Dang nhap admin thanh cong!" << endl;
+				cout << "Dang nhap thanh cong!" << endl;
 			do {
 			cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
 	    	cout<<"======     ======  ========  ======    ==  ===     ==="<<endl;
@@ -191,16 +192,16 @@ int main(){
 				if (choice2 == 1){}
 			} while (choice2 != 10);}
 			else {
-				cout << "Sai tai khoan hoac mat khau admin!" << endl;};
+				cout << "Sai tai khoan hoac mat khau!" << endl;};
 		}
 		else if (choice1==2){
 			string nameuser, passworduser;
 			cin.ignore();
-			cout<<"Ten dang nhap nguoi dung: ";getline(cin, nameuser);
+			cout<<"Ten dang nhap: ";getline(cin, nameuser);
 			cout<<endl;
-			cout<<"Mat khau nguoi dung: ";getline(cin, passworduser);
+			cout<<"Mat khau: ";getline(cin, passworduser);
 			if(lib.CheckUser(nameuser, passworduser)) {
-				cout << "Dang nhap nguoi dung thanh cong!" << endl;
+				cout << "Dang nhap nguoi thanh cong!" << endl;
 			do {
 			cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
 	    	cout<<"======     ======  ========  ======    ==  ===     ==="<<endl;
@@ -231,16 +232,16 @@ int main(){
 			if (choice3 == 1){}
 			} while (choice3 != 7);}
 			else {
-				cout << "Sai tai khoan hoac mat khau nguoi dung!" << endl;}
+				cout << "Sai tai khoan hoac mat khau!" << endl;}
 		}
 		else if (choice1==3){
 			string nameuser, passworduser, fullname, phonenumber, email;
 			cin.ignore();
 			bool value = false;
 			while (!value) {
-			cout<<"Ten dang nhap nguoi dung: ";getline(cin, nameuser);
+			cout<<"Ten dang nhap: ";getline(cin, nameuser);
 			cout<<endl;
-			cout<<"Mat khau nguoi dung: ";getline(cin, passworduser);
+			cout<<"Mat khau: ";getline(cin, passworduser);
 			cout<<endl;
 			cout<<"Ho va ten: "; getline(cin, fullname);
 			cout<<endl;
