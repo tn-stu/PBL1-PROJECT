@@ -88,12 +88,12 @@ class Librarysystem{
 		while (getline(inFile, line)){ // đọc từng dòng trong file rồi lưu vào line
 			stringstream ss(line); // biến chuỗi line thành luồng nhập để có thể tách dữ liệu
 			string nameadmin, password, fullname, phonenumber, email;
-			// đọc dữ liệu từ ss và tách bằng dấu ','
-			getline(ss, nameadmin, ',');
-			getline(ss, password, ',');
-			getline(ss, fullname, ',');
-			getline(ss, phonenumber, ',');
-			getline(ss, email, ',');
+			// đọc dữ liệu từ ss và tách bằng dấu '|'
+			getline(ss, nameadmin, '|');
+			getline(ss, password, '|');
+			getline(ss, fullname, '|');
+			getline(ss, phonenumber, '|');
+			getline(ss, email, '|');
 			// tạo object Admin rồi thêm vào vector Admins
 			Admins.push_back(Admin(nameadmin, password, fullname, phonenumber, email));
 		}
@@ -109,11 +109,11 @@ class Librarysystem{
 		while (getline(inFile, line)){
 			stringstream ss(line);
 			string nameuser, password, fullname, phonenumber, email;
-			getline(ss, nameuser, ',');
-			getline(ss, password, ',');
-			getline(ss, fullname, ',');
-			getline(ss, phonenumber, ',');
-			getline(ss, email, ',');
+			getline(ss, nameuser, '|');
+			getline(ss, password, '|');
+			getline(ss, fullname, '|');
+			getline(ss, phonenumber, '|');
+			getline(ss, email, '|');
 			Users.push_back(User(nameuser, password, fullname, phonenumber, email));
 		}
 		inFile.close();
@@ -199,7 +199,7 @@ int main(){
 			else {
 				cout << "Sai tai khoan hoac mat khau!" << endl;};
 		}
-		else if (choice1==2){
+		else if (choice1 == 2){
 			string nameuser, passworduser;
 			cin.ignore();
 			cout<<"Ten dang nhap: ";getline(cin, nameuser);

@@ -1,2 +1,2 @@
-NhatMinhStipud,123,Le Nhat Minh,0935505846,stormocean80@gmail.com
-ThaoNganSmart,456,Mai Thi Thao Ngan,0702357952,thaonganmai1301@gmail.com
+NhatMinhStipud | 123 | Le Nhat Minh      | 0935505846 | stormocean80@gmail.com
+ThaoNganSmart  | 456 | Mai Thi Thao Ngan | 0702357952 | thaonganmai1301@gmail.com
