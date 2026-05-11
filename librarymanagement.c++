@@ -12,7 +12,12 @@ private:
 	int quantity;
 public:
 	Book(string id, string bookname, int quantity) : id(id), bookname(bookname), quantity(quantity) {};
-	
+	string getID() const {return id;}
+	string getBookname() const {return bookname;}
+	int getQuantity() const {return quantity;}
+	void setID(const string id){ this->id = id; }
+	void setBookname(const string bookname){ this->bookname = bookname; }
+	void setQuantity(int quantity){ this->quantity = quantity; }
 };
 class User{
 	protected:
@@ -40,6 +45,7 @@ class Librarysystem{
 		static string FILENAMEADMIN;
 		static string FILENAMEBOOK;
 	public:
+	// thêm admin
 	void addAdmin(const Admin& ad){
 		Admins.push_back(ad);}
 	//check account để login
@@ -59,8 +65,8 @@ class Librarysystem{
 		}
 		return false;
 	}
+	//thêm user
 	bool Add_New_Account(const string& nameuser, const string& password, const string& fullname, const string& phonenumber, const string& email){
-		//check account để sign up
 		for (const auto& user : Users){
 			if (user.getName() == nameuser){
 				cout << "Ten dang nhap da ton tai. Vui long chon ten dang nhap khac!" << endl;
@@ -78,6 +84,20 @@ class Librarysystem{
 		Users.push_back(User(nameuser, password, fullname, phonenumber, email));
 		return true;
 	}
+	// thêm sách
+	void Add_new_book(const string& id, const string& tensach, int soluong){
+		Books.push_back(Book(id, tensach, soluong));
+	}
+    // tìm sách bằng id
+	Book* Find_book_by_id(const string& id){
+		for (auto& book : Books) {
+			if (book.getID() == id) {
+				return &book;
+			}
+		}
+		return nullptr;
+	}
+
 	void loadFile_Admin() {
 		ifstream inFile(FILENAMEADMIN);
 		if (!inFile){
@@ -99,6 +119,7 @@ class Librarysystem{
 		}
 		inFile.close();
 	}
+
 	void loadFile_User(){
 		ifstream inFile(FILENAMEUSER);
 		if(!inFile){
@@ -118,6 +139,7 @@ class Librarysystem{
 		}
 		inFile.close();
 	}
+	
 	void loadFile_Book(){
 		ifstream inFile(FILENAMEBOOK);
 		if(!inFile){
@@ -136,6 +158,7 @@ class Librarysystem{
 		}
 		inFile.close();
 	}
+	
 	void saveFile_User() {
 		ofstream outFile(FILENAMEUSER);
 		if (!outFile) {
