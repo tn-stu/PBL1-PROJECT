@@ -5,236 +5,255 @@
 #include <vector> 
 #include <iomanip>
 using namespace std;
-class Book{
-	private:
-	    string BookName;
-	    string Author;
-	    int Quantity;
-	public:
-	    Book(string BookName, string Author, int Quantity): BookName(BookName), Author(Author), Quantity(Quantity){}
-		string getBookName() const{ return BookName; }
-		string getAuthor() const { return Author; }
-		int getQuantity() const { return Quantity; }
-		void setQuantity(const int Quantity){
-			this->Quantity = Quantity;
-	}
+class Book {
+private:
+	string id;
+	string tensach;
+	int soluong;
+public:
+	Book(string id, string tensach, int soluong) : id(id), tensach(tensach), soluong(soluong) {};
+	
 };
 class User{
 	protected:
-		string Name;
-		string ID;
-		string Address;
-		string Phonenumber;
-		string Email;
-
-		string Username;
-		string Password;
-
-		vector<string> BorrowedBook;
-		double Fine;
-		bool Status;
+		string Nameacount, password, fullname,phonenumber,email;
 	public:	
-	User(string Name, string ID, string Address, string Phonenumber, string Email, string Username, string Password): 
-	Name(Name), ID(ID), Address(Address), Phonenumber(Phonenumber), Email(Email), Username(Username), Password(Password){
-		Fine = 0;
-		Status = true;
-	};
-	string getName() const { return Name; }
-	string getID() const { return ID; }
-	string getAddress() const { return Address; }
-	string getPhonenumber() const { return Phonenumber; }
-	string getEmail() const { return Email; }
-	string getUsername() const { return Username; }
-    string getPassword() const { return Password; }
-	void setAddress(const string Address) {
-        this-> Address = Address; 
-        }
-	void setPhonenumber(const string Phonenumber) {
-        this-> Phonenumber = Phonenumber; 
-        }
-	void setEmail(const string Email) {
-        this-> Email = Email; 
-        }
-	void setUsername(const string Username) {
-        this-> Username = Username; 
-        }
-	void setPassword(const string Password) {
-        this-> Password = Password; 
-        }
-	friend class Admin; //Chi cho Admin truy cap vao private
+	User(string Nameacount, string password, string fullname, string phonenumber, string email): 
+	Nameacount(Nameacount), password(password), fullname(fullname), phonenumber(phonenumber), email(email){};
+	string getName() const{ return Nameacount;}
+	string getPassword() const{return password;}
+	string getFullname() const{return fullname;}
+	string getPhonenumber() const{return phonenumber;}
+	string getEmail() const{return email;}
 };
-
 class Admin: public User{
-	private:
-	Admin(string Name, string ID, string Address,string Phonenumber, string Email, string Username, string Password)
-    : User(Name, ID, Address, Phonenumber, Email, Username, Password) {};
-	friend class LibrarySystem; //Chi cho Librarysystem truy cap vao private
+	public:
+	Admin(string Nameacount, string password,string fullname, string phonenumber, string email): 
+	User(Nameacount, password, fullname, phonenumber, email){};
 };
-class LibrarySystem{
+class Librarysystem{
 	private:
 		vector<Admin> Admins;
 		vector<User> Users;
-		vector<Book> Books;
+		static string FILENAMEUSER;
+		static string FILENAMEADMIN;
 	public:
-	//Ham tao Admin chi co LibrarySystem moi tao duoc -> encapsulation
-	void CreateAdmin(string Name, string ID, string Address, string Phonenumber, string Email, string Username, string Password){
-        Admins.push_back(Admin(Name, ID, Address, Phonenumber, Email, Username, Password));
-    }
-	//Kiem tra User co ton tai hay chua
-	bool UserCheck(const string& Username){
-		for(const auto& user : Users){ //range-based for loop
-			if(user.getUsername() == Username){
+	void Adminaccount(const Admin& a){
+		Admins.push_back(a);}
+	//kiem tra tai khoan admin da ton tai chua
+	bool CheckAdmin(const string& nameadmin, const string& password){
+		for (const auto& admin : Admins) {
+			if (admin.getName() == nameadmin && admin.getPassword() == password) {
 				return true;
 			}
 		}
 		return false;
 	}
-	//Dang ky cho User
-	bool UserSignUp(string Name, string ID, string Address, string Phonenumber, string Email, string Username, string Password){
-		if(UserCheck(Username)){
+	bool CheckUser(const string& nameuser, const string& password){
+		for (const auto& user : Users) {
+			if (user.getName() == nameuser && user.getPassword() == password) {
+				return true;
+			}
+		}
+		return false;
+	}
+	bool Add_New_Account(const string& nameuser, const string& password, const string& fullname, const string& phonenumber, const string& email){
+		for (const auto& user : Users) {
+			if (user.getName() == nameuser) {
+				cout << "Vui long chon ten dang nhap khac!" << endl;
+				return false;
+			}
+			if (user.getEmail() == email || user.getPhonenumber() == phonenumber) {
+				cout << "Tai khoan da ton tai. Vui long nhap lai thong tin!" << endl;
+				return false;
+			}
+		}
+		if(nameuser.empty() || password.empty() || fullname.empty() || phonenumber.empty() || email.empty()) {
+			cout << "Vui long dien day du thong tin!" << endl;
 			return false;
-		}
-		Users.push_back(User(Name, ID, Address, Phonenumber, Email, Username, Password));
-        return true;
-	}
-	//Dang nhap
-	bool AdminLogin(const string& AdminName, const string& Password){
-		for(const auto& admin : Admins){ //range-based for loop
-			if(admin.getUsername() == AdminName && admin.getPassword() == Password){
-				return true;
 			}
-		}
-		return false;
+		Users.push_back(User(nameuser, password, fullname, phonenumber, email));
+		return true;
 	}
-	bool UserLogin(const string& Username, const string& Password){
-		for(const auto& user : Users){ //range-based for loop
-			if(user.getUsername() == Username && user.getPassword() == Password){
-				return true;
-			}
+	void loadFile_Admin() {
+		ifstream inFile(FILENAMEADMIN);
+		if (!inFile) {
+			cout << "Loi mo file admin!" << endl;
+			return;
 		}
-		return false;
+		string line;
+		while (getline(inFile, line)) {
+			stringstream ss(line);
+			string nameadmin, password, fullname, phonenumber, email;
+			getline(ss, nameadmin, ',');
+			getline(ss, password, ',');
+			getline(ss, fullname, ',');
+			getline(ss, phonenumber, ',');
+			getline(ss, email, ',');
+			Admins.push_back(Admin(nameadmin, password, fullname, phonenumber, email));
+		}
+		inFile.close();
 	}
-
+	void loadFile_User (){
+		ifstream inFile(FILENAMEUSER);
+		if (!inFile) {
+			cout << "Loi mo file nguoi dung!" << endl;
+			return;
+		}
+		string line;
+		while (getline(inFile, line)) {
+			stringstream ss(line);
+			string nameuser, password, fullname, phonenumber, email;
+			getline(ss, nameuser, ',');
+			getline(ss, password, ',');
+			getline(ss, fullname, ',');
+			getline(ss, phonenumber, ',');
+			getline(ss, email, ',');
+			Users.push_back(User(nameuser, password, fullname, phonenumber, email));
+		}
+		inFile.close();
+	}
+	void saveFile_User() {
+		ofstream outFile(FILENAMEUSER);
+		if (!outFile) {
+			cout << "Loi mo file nguoi dung!" << endl;
+			return;
+		}
+		for (const auto& user : Users) {
+			outFile << user.getName() << "," << user.getPassword() << "," << user.getFullname() << "," << user.getPhonenumber() << "," << user.getEmail() << endl;
+		}
+		outFile.close();
+	}
 };
+string Librarysystem::FILENAMEADMIN = "admin.txt";
+string Librarysystem::FILENAMEUSER = "user.txt";
+
 int main(){
-	LibrarySystem lib;
-	//-------------------------------------------
-	// Tao tai khoan Admin mac dinh de test 
-    lib.CreateAdmin("Admin", "000000", "Da Nang", "0123456789", "admin@gmail.com", "admin", "123");
-	//-------------------------------------------
-    int choice_1, choice_2, choice_3, choice_4;
+	Librarysystem l;
+	l.loadFile_User();
+	l.loadFile_Admin();
+    int choice1,choice2,choice3,choice4;
+    
     do {
-		cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
-	    cout<<"======     ======  ========  ======    ==  ===     ==="<<endl;
-	    cout<<"=== ===   === ===  ===       === ===   ==  ===     ==="<<endl;
-	    cout<<"===  === ===  ===  ========  ===  ===  ==  ===     ==="<<endl;
-	    cout<<"===   =====   ===  ========  ===   === ==  ===     ==="<<endl;
-	    cout<<"===    ===    ===  ===       ===    =====  ===     ==="<<endl;
-	    cout<<"===     =     ===  ========  ===     ====  ====   ===="<<endl;
-	    cout<<"===           ===  ========  ===      ===   ========= "<<endl;
-	    cout<<"------------------------------------------------------"<<endl;
-	    cout<<"======================================================"<<endl;
-	    cout<<"||1.Dang nhap voi tu cach Admin                     ||"<<endl;
-		cout<<"||--------------------------------------------------||"<<endl;
-        cout<<"||2.Dang nhap voi tu cach User                      ||"<<endl;  
-		cout<<"||--------------------------------------------------||"<<endl;
-		cout<<"||3.Dang ky tai khoan                               ||"<<endl; 
-		cout<<"||--------------------------------------------------||"<<endl;   
-		cout<<"||4.Thoat                                           ||"<<endl;              
-	    cout<<"======================================================"<<endl;
-        cout<<"Lua chon cua ban: ";
-        cin >> choice_1;
-        if (choice_1 == 1){
-			string AdminName, Password;
-			cin.ignore();
-			cout<<"Ten dang nhap: ";
-			getline(cin, AdminName);
-			cout<<"Mat khau: ";
-			getline(cin, Password);
-			if(lib.AdminLogin(AdminName,Password)){
-				cout << "Dang nhap thanh cong!" << endl;
-				do {
-		cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
-	    cout<<"======     ======  ========  ======    ==  ===     ==="<<endl;
-	    cout<<"=== ===   === ===  ===       === ===   ==  ===     ==="<<endl;
-	    cout<<"===  === ===  ===  ========  ===  ===  ==  ===     ==="<<endl;
-	    cout<<"===   =====   ===  ========  ===   === ==  ===     ==="<<endl;
-	    cout<<"===    ===    ===  ===       ===    =====  ===     ==="<<endl;
-	    cout<<"===     =     ===  ========  ===     ====  ====   ===="<<endl;
-	    cout<<"===           ===  ========  ===      ===   ========= "<<endl;
-	    cout<<"------------------------------------------------------"<<endl;
-		cout<<"======================================================"<<endl;
-	    cout<<"||1.Them sach moi                                   ||"<<endl;
-	    cout<<"||--------------------------------------------------||"<<endl;
-        cout<<"||2.Sua thong tin sach                              ||"<<endl;
-	    cout<<"||--------------------------------------------------||"<<endl;
-	    cout<<"||3.Xoa sach                                        ||"<<endl;
-    	cout<<"||--------------------------------------------------||"<<endl;
-	    cout<<"||4.Thong ke luong sach hien co                     ||"<<endl;
-	    cout<<"||--------------------------------------------------||"<<endl;
-        cout<<"||5.Xem danh sach tai khoan User                    ||"<<endl;
-	    cout<<"||--------------------------------------------------||"<<endl;
-        cout<<"||6.Xoa tai khoan User vi pham                      ||"<<endl;
-	    cout<<"||--------------------------------------------------||"<<endl;
-	    cout<<"||7.Thong ke sach dang bi muon qua han              ||"<<endl; 
-		cout<<"||--------------------------------------------------||"<<endl;
-		cout<<"||8.Duyet yeu cau muon sach                         ||"<<endl; 
-		cout<<"||--------------------------------------------------||"<<endl;
-		cout<<"||9.Xac nhan nguoi dung tra sach                    ||"<<endl;
-		cout<<"||--------------------------------------------------||"<<endl;
-		cout<<"||10.Thoat                                          ||"<<endl;
-	    cout<<"======================================================"<<endl;
+        cout<<"==========================================="<<endl;
+	    cout<<"||1.Dang nhap voi tu cach la admin       ||"<<endl;
+		cout<<"||---------------------------------------||"<<endl;
+        cout<<"||2.Dang nhap voi tu cach la nguoi dung  ||"<<endl;
+		cout<<"||---------------------------------------||"<<endl;
+        cout<<"||3.Dang ky tai khoan                    ||"<<endl;  
+		cout<<"||---------------------------------------||"<<endl;
+        cout<<"||4.Thoat                                ||"<<endl;                          
+	    cout<<"==========================================="<<endl;
         cout<<"Lua chon cua ban la: ";
-        cin >> choice_2;
-	            }
-				while(choice_2 < 1);
-			}
+        cin >> choice1;
+		//Dang nhap tk admin
+        if (choice1 ==1){
+			string name_admin, password_admin;
+			cin.ignore();
+			cout<<"Ten dang nhap admin: ";getline(cin, name_admin);
+			cout<<"Mat khau admin: ";getline(cin, password_admin);
+			if(l.CheckAdmin(name_admin, password_admin)) {
+				cout << "Dang nhap admin thanh cong!" << endl;
+			do {
+			cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
+	    	cout<<"======     ======  ========  ======    ==  ===     ==="<<endl;
+	    	cout<<"=== ===   === ===  ===       === ===   ==  ===     ==="<<endl;
+	    	cout<<"===  === ===  ===  ========  ===  ===  ==  ===     ==="<<endl;
+	    	cout<<"===   =====   ===  ========  ===   === ==  ===     ==="<<endl;
+	    	cout<<"===    ===    ===  ===       ===    =====  ===     ==="<<endl;
+	    	cout<<"===     =     ===  ========  ===     ====  ====   ===="<<endl;
+	    	cout<<"===           ===  ========  ===      ===   ========= "<<endl;
+	    	cout<<"------------------------------------------------------"<<endl;
+			cout<<"======================================================"<<endl;
+	    	cout<<"||1.Them sach moi                                   ||"<<endl;
+	    	cout<<"||--------------------------------------------------||"<<endl;
+        	cout<<"||2.Sua thong tin sach                              ||"<<endl;
+	    	cout<<"||--------------------------------------------------||"<<endl;
+	    	cout<<"||3.Xoa sach                                        ||"<<endl;
+    		cout<<"||--------------------------------------------------||"<<endl;
+	    	cout<<"||4.Thong ke luong sach hien co                     ||"<<endl;
+	    	cout<<"||--------------------------------------------------||"<<endl;
+        	cout<<"||5.Xem danh sach tat ca tai khoan nguoi dung       ||"<<endl;
+	    	cout<<"||--------------------------------------------------||"<<endl;
+        	cout<<"||6.Xoa tai khoan vi pham                           ||"<<endl;
+	    	cout<<"||--------------------------------------------------||"<<endl;
+	    	cout<<"||7.Xem danh sach sach dang bi muon qua han         ||"<<endl; 
+			cout<<"||--------------------------------------------------||"<<endl;
+			cout<<"||8.Duyet yeu cau muon sach                         ||"<<endl; 
+			cout<<"||--------------------------------------------------||"<<endl;
+			cout<<"||9.Xac nhan nguoi dung tra sach                    ||"<<endl;
+			cout<<"||--------------------------------------------------||"<<endl;
+			cout<<"||10.Thoat                                          ||"<<endl;
+	    	cout<<"======================================================"<<endl;
+        	cout<<"Lua chon cua ban la: ";
+        	cin >> choice2;
+				if (choice2 == 1){}
+			} while (choice2 != 10);}
 			else {
-				cout << "Sai tai khoan Admin!" << endl;
-			}
+				cout << "Sai tai khoan hoac mat khau admin!" << endl;};
 		}
-	if (choice_1 == 2){
-			string Username, Password;
+		else if (choice1==2){
+			string nameuser, passworduser;
 			cin.ignore();
-			cout<<"Ten dang nhap: ";
-			getline(cin, Username);
-			cout<<"Mat khau: ";
-			getline(cin, Password);
-			if(lib.UserLogin(Username,Password)){
-				cout << "Dang nhap thanh cong!" << endl;
-			    do {
-		cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
-	    cout<<"======     ======  ========  ======    ==  ===     ==="<<endl;
-	    cout<<"=== ===   === ===  ===       === ===   ==  ===     ==="<<endl;
-	    cout<<"===  === ===  ===  ========  ===  ===  ==  ===     ==="<<endl;
-	    cout<<"===   =====   ===  ========  ===   === ==  ===     ==="<<endl;
-	    cout<<"===    ===    ===  ===       ===    =====  ===     ==="<<endl;
-	    cout<<"===     =     ===  ========  ===     ====  ====   ===="<<endl;
-	    cout<<"===           ===  ========  ===      ===   ========= "<<endl;
-	    cout<<"------------------------------------------------------"<<endl;
-		cout<<"======================================================"<<endl;
-	    cout<<"||1.Thong ke cac loai sach hien co                  ||"<<endl;
-	    cout<<"||--------------------------------------------------||"<<endl;
-        cout<<"||2.Tim sach theo ten hoac ID                       ||"<<endl;
-	    cout<<"||--------------------------------------------------||"<<endl;
-	    cout<<"||3.Gui yeu cau muon sach                           ||"<<endl;
-	    cout<<"||--------------------------------------------------||"<<endl;
-        cout<<"||4.Danh sach sach dang muon va ngay tra            ||"<<endl;
-	    cout<<"||--------------------------------------------------||"<<endl;
-        cout<<"||5.Doi mat khau                                    ||"<<endl;
-	    cout<<"||--------------------------------------------------||"<<endl;
-	    cout<<"||6.Chinh sua thong tin ca nhan                     ||"<<endl;
-		cout<<"||--------------------------------------------------||"<<endl;
-	    cout<<"||7.Thoat                                           ||"<<endl;
-	    cout<<"======================================================"<<endl;
-        cout<<"Lua chon cua ban la: ";
-        cin >> choice_3;
-				}
-		        while(choice_3 < 1);
-			}
-			else{
-				cout << "Sai tai khoan User!" << endl;
-			}
+			cout<<"Ten dang nhap nguoi dung: ";getline(cin, nameuser);
+			cout<<endl;
+			cout<<"Mat khau nguoi dung: ";getline(cin, passworduser);
+			if(l.CheckUser(nameuser, passworduser)) {
+				cout << "Dang nhap nguoi dung thanh cong!" << endl;
+			do {
+			cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
+	    	cout<<"======     ======  ========  ======    ==  ===     ==="<<endl;
+	    	cout<<"=== ===   === ===  ===       === ===   ==  ===     ==="<<endl;
+	    	cout<<"===  === ===  ===  ========  ===  ===  ==  ===     ==="<<endl;
+	    	cout<<"===   =====   ===  ========  ===   === ==  ===     ==="<<endl;
+	    	cout<<"===    ===    ===  ===       ===    =====  ===     ==="<<endl;
+	    	cout<<"===     =     ===  ========  ===     ====  ====   ===="<<endl;
+	    	cout<<"===           ===  ========  ===      ===   ========= "<<endl;
+	    	cout<<"------------------------------------------------------"<<endl;
+			cout<<"======================================================"<<endl;
+	    	cout<<"||1.Xem danh sach tat ca loai sach hien co          ||"<<endl;
+	    	cout<<"||--------------------------------------------------||"<<endl;
+        	cout<<"||2.Tim sach theo ten hoac ID                       ||"<<endl;
+	    	cout<<"||--------------------------------------------------||"<<endl;
+	    	cout<<"||3.Gui yeu cau muon sach                           ||"<<endl;
+	    	cout<<"||--------------------------------------------------||"<<endl;
+        	cout<<"||4.Xem danh sach sach dang muon va ngay phai tra   ||"<<endl;
+	    	cout<<"||--------------------------------------------------||"<<endl;
+        	cout<<"||5.Doi mat khau                                    ||"<<endl;
+	    	cout<<"||--------------------------------------------------||"<<endl;
+	    	cout<<"||6.Chinh sua thong tin ca nhan                     ||"<<endl;
+			cout<<"||--------------------------------------------------||"<<endl;
+	    	cout<<"||7.Thoat                                           ||"<<endl;
+	    	cout<<"======================================================"<<endl;
+        	cout<<"Lua chon cua ban la: ";
+        	cin >> choice3;
+			if (choice3 == 1){}
+			} while (choice3 != 7);}
+			else {
+				cout << "Sai tai khoan hoac mat khau nguoi dung!" << endl;}
+		}
+		else if (choice1==3){
+			string nameuser, passworduser, fullname, phonenumber, email;
+			cin.ignore();
+			bool value = false;
+			while (!value) {
+			cout<<"Ten dang nhap nguoi dung: ";getline(cin, nameuser);
+			cout<<endl;
+			cout<<"Mat khau nguoi dung: ";getline(cin, passworduser);
+			cout<<endl;
+			cout<<"Ho va ten: "; getline(cin, fullname);
+			cout<<endl;
+			cout<<"So dien thoai: "; getline(cin, phonenumber);
+			cout<<endl;
+			cout<<"Email: "; getline(cin, email);
+			if (l.Add_New_Account(nameuser, passworduser, fullname, phonenumber, email)){
+			cout << "Dang ky tai khoan thanh cong!" << endl;
+			l.saveFile_User();
+		    value = true;}
 		}
 	}
-     while (choice_1 <= 2);}
+			
+	 	else {
+            cout << "Lua chon khong hop le, vui long chon lai." << endl;
+        }}
+     while (choice1 != 4);}
