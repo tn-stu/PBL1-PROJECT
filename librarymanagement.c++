@@ -35,6 +35,7 @@ class Librarysystem{
 	private:
 		vector<Admin> Admins;
 		vector<User> Users;
+		vector<Book> Books;
 		static string FILENAMEUSER;
 		static string FILENAMEADMIN;
 	public:
@@ -82,7 +83,7 @@ class Librarysystem{
 			return;
 		}
 		string line;
-		while (getline(inFile, line)) {
+		while (getline(inFile, line)){
 			stringstream ss(line);
 			string nameadmin, password, fullname, phonenumber, email;
 			getline(ss, nameadmin, ',');
@@ -101,7 +102,7 @@ class Librarysystem{
 			return;
 		}
 		string line;
-		while (getline(inFile, line)) {
+		while (getline(inFile, line)){
 			stringstream ss(line);
 			string nameuser, password, fullname, phonenumber, email;
 			getline(ss, nameuser, ',');
@@ -129,9 +130,9 @@ string Librarysystem::FILENAMEADMIN = "admin.txt";
 string Librarysystem::FILENAMEUSER = "user.txt";
 
 int main(){
-	Librarysystem l;
-	l.loadFile_User();
-	l.loadFile_Admin();
+	Librarysystem lib;
+	lib.loadFile_User();
+	lib.loadFile_Admin();
     int choice1,choice2,choice3,choice4;
     
     do {
@@ -152,7 +153,7 @@ int main(){
 			cin.ignore();
 			cout<<"Ten dang nhap admin: ";getline(cin, name_admin);
 			cout<<"Mat khau admin: ";getline(cin, password_admin);
-			if(l.CheckAdmin(name_admin, password_admin)) {
+			if(lib.CheckAdmin(name_admin, password_admin)) {
 				cout << "Dang nhap admin thanh cong!" << endl;
 			do {
 			cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
@@ -198,7 +199,7 @@ int main(){
 			cout<<"Ten dang nhap nguoi dung: ";getline(cin, nameuser);
 			cout<<endl;
 			cout<<"Mat khau nguoi dung: ";getline(cin, passworduser);
-			if(l.CheckUser(nameuser, passworduser)) {
+			if(lib.CheckUser(nameuser, passworduser)) {
 				cout << "Dang nhap nguoi dung thanh cong!" << endl;
 			do {
 			cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
@@ -246,9 +247,9 @@ int main(){
 			cout<<"So dien thoai: "; getline(cin, phonenumber);
 			cout<<endl;
 			cout<<"Email: "; getline(cin, email);
-			if (l.Add_New_Account(nameuser, passworduser, fullname, phonenumber, email)){
+			if (lib.Add_New_Account(nameuser, passworduser, fullname, phonenumber, email)){
 			cout << "Dang ky tai khoan thanh cong!" << endl;
-			l.saveFile_User();
+			lib.saveFile_User();
 		    value = true;}
 		}
 	}
