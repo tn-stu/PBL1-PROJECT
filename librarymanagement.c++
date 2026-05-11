@@ -8,19 +8,19 @@ using namespace std;
 class Book {
 private:
 	string id;
-	string tensach;
-	int soluong;
+	string bookname;
+	int quantity;
 public:
-	Book(string id, string tensach, int soluong) : id(id), tensach(tensach), soluong(soluong) {};
+	Book(string id, string tensach, int quantity) : id(id), bookname(bookname), quantity(quantity) {};
 	
 };
 class User{
 	protected:
-		string Nameacount, password, fullname,phonenumber,email;
+		string username, password, fullname,phonenumber,email;
 	public:	
-	User(string Nameacount, string password, string fullname, string phonenumber, string email): 
-	Nameacount(Nameacount), password(password), fullname(fullname), phonenumber(phonenumber), email(email){};
-	string getName() const{ return Nameacount;}
+	User(string username, string password, string fullname, string phonenumber, string email): 
+	username(username), password(password), fullname(fullname), phonenumber(phonenumber), email(email){};
+	string getName() const{ return username;}
 	string getPassword() const{return password;}
 	string getFullname() const{return fullname;}
 	string getPhonenumber() const{return phonenumber;}
@@ -28,8 +28,8 @@ class User{
 };
 class Admin: public User{
 	public:
-	Admin(string Nameacount, string password,string fullname, string phonenumber, string email): 
-	User(Nameacount, password, fullname, phonenumber, email){};
+	Admin(string username, string password,string fullname, string phonenumber, string email): 
+	User(username, password, fullname, phonenumber, email){};
 };
 class Librarysystem{
 	private:
@@ -60,7 +60,7 @@ class Librarysystem{
 	bool Add_New_Account(const string& nameuser, const string& password, const string& fullname, const string& phonenumber, const string& email){
 		for (const auto& user : Users) {
 			if (user.getName() == nameuser) {
-				cout << "Vui long chon ten dang nhap khac!" << endl;
+				cout << "Ten dang nhap da ton tai. Vui long chon ten dang nhap khac!" << endl;
 				return false;
 			}
 			if (user.getEmail() == email || user.getPhonenumber() == phonenumber) {
