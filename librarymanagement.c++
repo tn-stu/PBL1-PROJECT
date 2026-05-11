@@ -11,12 +11,12 @@ private:
 	string bookname;
 	int quantity;
 public:
-	Book(string id, string tensach, int quantity) : id(id), bookname(bookname), quantity(quantity) {};
+	Book(string id, string bookname, int quantity) : id(id), bookname(bookname), quantity(quantity) {};
 	
 };
 class User{
 	protected:
-		string username, password, fullname,phonenumber,email;
+		string username, password, fullname, phonenumber, email;
 	public:	
 	User(string username, string password, string fullname, string phonenumber, string email): 
 	username(username), password(password), fullname(fullname), phonenumber(phonenumber), email(email){};
@@ -38,12 +38,13 @@ class Librarysystem{
 		vector<Book> Books;
 		static string FILENAMEUSER;
 		static string FILENAMEADMIN;
+		static string FILENAMEBOOK;
 	public:
-	void Adminaccount(const Admin& a){
-		Admins.push_back(a);}
+	void addAdmin(const Admin& ad){
+		Admins.push_back(ad);}
 	//check account để login
 	bool CheckAdmin(const string& nameadmin, const string& password){
-		for (const auto& admin : Admins) {
+		for (const auto& admin : Admins){ //Range-based for loop
 			if (admin.getName() == nameadmin && admin.getPassword() == password) {
 				return true;
 			}
@@ -51,7 +52,7 @@ class Librarysystem{
 		return false;
 	}
 	bool CheckUser(const string& nameuser, const string& password){
-		for (const auto& user : Users) {
+		for (const auto& user : Users){ //Range-based for loop
 			if (user.getName() == nameuser && user.getPassword() == password) {
 				return true;
 			}
@@ -127,8 +128,10 @@ class Librarysystem{
 		outFile.close();
 	}
 };
+
 string Librarysystem::FILENAMEADMIN = "admin.txt";
 string Librarysystem::FILENAMEUSER = "user.txt";
+string Librarysystem::FILENAMEBOOK = "book.txt";
 
 int main(){
 	Librarysystem lib;
