@@ -4,6 +4,7 @@
 #include <string> 
 #include <vector> 
 #include <iomanip>
+#include <algorithm>// dung de su dung remove
 using namespace std;
 class Book{
 private:
@@ -50,16 +51,16 @@ class Librarysystem{
 		Admins.push_back(ad);}
 	//check account để login
 	bool CheckAdmin(const string& nameadmin, const string& password){
-		for (const auto& admin : Admins){ //Range-based for loop
-			if (admin.getName() == nameadmin && admin.getPassword() == password) {
+		for(const auto& admin : Admins){ //Range-based for loop
+			if(admin.getName() == nameadmin && admin.getPassword() == password){
 				return true;
 			}
 		}
 		return false;
 	}
 	bool CheckUser(const string& nameuser, const string& password){
-		for (const auto& user : Users){ //Range-based for loop
-			if (user.getName() == nameuser && user.getPassword() == password) {
+		for(const auto& user : Users){ //Range-based for loop
+			if(user.getName() == nameuser && user.getPassword() == password){
 				return true;
 			}
 		}
@@ -67,12 +68,12 @@ class Librarysystem{
 	}
 	//thêm user
 	bool Add_New_Account(const string& nameuser, const string& password, const string& fullname, const string& phonenumber, const string& email){
-		for (const auto& user : Users){
-			if (user.getName() == nameuser){
+		for(const auto& user : Users){
+			if(user.getName() == nameuser){
 				cout << "Ten dang nhap da ton tai. Vui long chon ten dang nhap khac!" << endl;
 				return false;
 			}
-			if (user.getEmail() == email || user.getPhonenumber() == phonenumber){
+			if(user.getEmail() == email || user.getPhonenumber() == phonenumber){
 				cout << "Tai khoan da ton tai. Vui long nhap lai thong tin!" << endl;
 				return false;
 			}
@@ -90,22 +91,22 @@ class Librarysystem{
 	}
     // tìm sách bằng id
 	Book* Find_book_by_id(const string& id){
-		for (auto& book : Books) {
-			if (book.getID() == id) {
+		for(auto& book : Books){
+			if(book.getID() == id){
 				return &book;
 			}
 		}
 		return nullptr;
 	}
 
-	void loadFile_Admin() {
+	void loadFile_Admin(){
 		ifstream inFile(FILENAMEADMIN);
-		if (!inFile){
-			cout << "Loi mo file admin!" << endl;
+		if(!inFile){
+			cout << "Loi mo file!" << endl;
 			return;
 		}
 		string line;
-		while (getline(inFile, line)){ // đọc từng dòng trong file rồi lưu vào line
+		while(getline(inFile, line)){ // đọc từng dòng trong file rồi lưu vào line
 			stringstream ss(line); // biến chuỗi line thành luồng nhập để có thể tách dữ liệu
 			string nameadmin, password, fullname, phonenumber, email;
 			// đọc dữ liệu từ ss và tách bằng dấu '|'
@@ -123,7 +124,7 @@ class Librarysystem{
 	void loadFile_User(){
 		ifstream inFile(FILENAMEUSER);
 		if(!inFile){
-			cout << "Loi mo file nguoi dung!" << endl;
+			cout << "Loi mo file!" << endl;
 			return;
 		}
 		string line;
@@ -143,7 +144,7 @@ class Librarysystem{
 	void loadFile_Book(){
 		ifstream inFile(FILENAMEBOOK);
 		if(!inFile){
-			cout << "Loi mo file sach!" << endl;
+			cout << "Loi mo file!" << endl;
 			return;
 		}
 		string line;
@@ -159,14 +160,38 @@ class Librarysystem{
 		inFile.close();
 	}
 	
-	void saveFile_User() {
+	void saveFile_User(){
 		ofstream outFile(FILENAMEUSER);
-		if (!outFile) {
-			cout << "Loi mo file nguoi dung!" << endl;
+		if(!outFile){
+			cout << "Loi mo file!" << endl;
 			return;
 		}
-		for (const auto& user : Users) {
-			outFile << user.getName() << "," << user.getPassword() << "," << user.getFullname() << "," << user.getPhonenumber() << "," << user.getEmail() << endl;
+		for(const auto& user : Users){
+			outFile << user.getName() << "|" << user.getPassword() << "|" << user.getFullname() << "|" << user.getPhonenumber() << "|" << user.getEmail() << endl;
+		}
+		outFile.close();
+	}
+
+	void saveFile_Book(){
+		ofstream outFile(FILENAMEBOOK);
+		if(!outFile){
+			cout << "Loi mo file!" << endl;
+			return;
+		}
+		for(const auto& book : Books){
+			outFile << book.getID() << "|" << book.getBookname() << "|" << book.getQuantity() << "|" << endl;
+		}
+		outFile.close();
+	}
+
+	void saveFile_Admin(){
+		ofstream outFile(FILENAMEADMIN);
+		if(!outFile){
+			cout << "Loi mo file!" << endl;
+			return;
+		}
+		for(const auto& admin : Admins){
+			outFile << admin.getName() << "|" << admin.getPassword() << "|" << admin.getFullname() << "|" << admin.getPhonenumber() << "|" << admin.getEmail() << endl;
 		}
 		outFile.close();
 	}
@@ -195,7 +220,7 @@ int main(){
         cout<<"Lua chon cua ban la: ";
         cin >> choice1;
 		//Dang nhap tk admin
-        if (choice1 == 1){
+        if(choice1 == 1){
 			string name_admin, password_admin;
 			cin.ignore();
 			cout<<"Ten dang nhap: ";getline(cin, name_admin);
@@ -235,21 +260,21 @@ int main(){
 	    	cout<<"======================================================"<<endl;
         	cout<<"Lua chon cua ban la: ";
         	cin >> choice2;
-				if (choice2 == 1){}
+				if(choice2 == 1){}
 			} 
-			while (choice2 != 10);}
-			else {
+			while(choice2 != 10);}
+			else{
 				cout << "Sai tai khoan hoac mat khau!" << endl;};
 		}
-		else if (choice1 == 2){
+		else if(choice1 == 2){
 			string nameuser, passworduser;
 			cin.ignore();
-			cout<<"Ten dang nhap: ";getline(cin, nameuser);
+			cout<<"Ten dang nhap: "; getline(cin, nameuser);
 			cout<<endl;
-			cout<<"Mat khau: ";getline(cin, passworduser);
+			cout<<"Mat khau: "; getline(cin, passworduser);
 			if(lib.CheckUser(nameuser, passworduser)) {
 				cout << "Dang nhap nguoi thanh cong!" << endl;
-			do {
+			do{
 			cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
 	    	cout<<"======     ======  ========  ======    ==  ===     ==="<<endl;
 	    	cout<<"=== ===   === ===  ===       === ===   ==  ===     ==="<<endl;
@@ -276,16 +301,16 @@ int main(){
 	    	cout<<"======================================================"<<endl;
         	cout<<"Lua chon cua ban la: ";
         	cin >> choice3;
-			if (choice3 == 1){}
-			} while (choice3 != 7);}
-			else {
+			if(choice3 == 1){}
+			} while(choice3 != 7);}
+			else{
 				cout << "Sai tai khoan hoac mat khau!" << endl;}
 		}
-		else if (choice1==3){
+		else if(choice1==3){
 			string nameuser, passworduser, fullname, phonenumber, email;
 			cin.ignore();
 			bool value = false;
-			while (!value) {
+			while(!value){
 			cout<<"Ten dang nhap: ";getline(cin, nameuser);
 			cout<<endl;
 			cout<<"Mat khau: ";getline(cin, passworduser);
@@ -295,14 +320,14 @@ int main(){
 			cout<<"So dien thoai: "; getline(cin, phonenumber);
 			cout<<endl;
 			cout<<"Email: "; getline(cin, email);
-			if (lib.Add_New_Account(nameuser, passworduser, fullname, phonenumber, email)){
+			if(lib.Add_New_Account(nameuser, passworduser, fullname, phonenumber, email)){
 			cout << "Dang ky tai khoan thanh cong!" << endl;
 			lib.saveFile_User();
 		    value = true;}
 		}
 	}
 			
-	 	else {
+	 	else{
             cout << "Lua chon khong hop le, vui long chon lai." << endl;
         }}
-     while (choice1 != 4);}
+     while(choice1 != 4);}
