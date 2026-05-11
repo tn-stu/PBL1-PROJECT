@@ -61,17 +61,17 @@ class Librarysystem{
 	}
 	bool Add_New_Account(const string& nameuser, const string& password, const string& fullname, const string& phonenumber, const string& email){
 		//check account để sign up
-		for (const auto& user : Users) {
-			if (user.getName() == nameuser) {
+		for (const auto& user : Users){
+			if (user.getName() == nameuser){
 				cout << "Ten dang nhap da ton tai. Vui long chon ten dang nhap khac!" << endl;
 				return false;
 			}
-			if (user.getEmail() == email || user.getPhonenumber() == phonenumber) {
+			if (user.getEmail() == email || user.getPhonenumber() == phonenumber){
 				cout << "Tai khoan da ton tai. Vui long nhap lai thong tin!" << endl;
 				return false;
 			}
 		}
-		if(nameuser.empty() || password.empty() || fullname.empty() || phonenumber.empty() || email.empty()) {
+		if(nameuser.empty() || password.empty() || fullname.empty() || phonenumber.empty() || email.empty()){
 			cout << "Vui long dien day du thong tin!" << endl;
 			return false;
 			}
@@ -80,19 +80,21 @@ class Librarysystem{
 	}
 	void loadFile_Admin() {
 		ifstream inFile(FILENAMEADMIN);
-		if (!inFile) {
+		if (!inFile){
 			cout << "Loi mo file admin!" << endl;
 			return;
 		}
 		string line;
-		while (getline(inFile, line)){
-			stringstream ss(line);
+		while (getline(inFile, line)){ // đọc từng dòng trong file rồi lưu vào line
+			stringstream ss(line); // biến chuỗi line thành luồng nhập để có thể tách dữ liệu
 			string nameadmin, password, fullname, phonenumber, email;
+			// đọc dữ liệu từ ss và tách bằng dấu ','
 			getline(ss, nameadmin, ',');
 			getline(ss, password, ',');
 			getline(ss, fullname, ',');
 			getline(ss, phonenumber, ',');
 			getline(ss, email, ',');
+			// tạo object Admin rồi thêm vào vector Admins
 			Admins.push_back(Admin(nameadmin, password, fullname, phonenumber, email));
 		}
 		inFile.close();
