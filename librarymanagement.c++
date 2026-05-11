@@ -5,7 +5,7 @@
 #include <vector> 
 #include <iomanip>
 using namespace std;
-class Book {
+class Book{
 private:
 	string id;
 	string bookname;
@@ -99,14 +99,14 @@ class Librarysystem{
 		}
 		inFile.close();
 	}
-	void loadFile_User (){
+	void loadFile_User(){
 		ifstream inFile(FILENAMEUSER);
-		if (!inFile) {
+		if(!inFile){
 			cout << "Loi mo file nguoi dung!" << endl;
 			return;
 		}
 		string line;
-		while (getline(inFile, line)){
+		while(getline(inFile, line)){
 			stringstream ss(line);
 			string nameuser, password, fullname, phonenumber, email;
 			getline(ss, nameuser, '|');
@@ -115,6 +115,24 @@ class Librarysystem{
 			getline(ss, phonenumber, '|');
 			getline(ss, email, '|');
 			Users.push_back(User(nameuser, password, fullname, phonenumber, email));
+		}
+		inFile.close();
+	}
+	void loadFile_Book(){
+		ifstream inFile(FILENAMEBOOK);
+		if(!inFile){
+			cout << "Loi mo file sach!" << endl;
+			return;
+		}
+		string line;
+		while(getline(inFile,line)){
+			stringstream ss(line);
+			string id, bookname;
+			int quantity;
+			getline(ss, id, '|');
+			getline(ss, bookname, '|');
+			ss >> quantity;
+			Books.push_back(Book(id, bookname, quantity));
 		}
 		inFile.close();
 	}
@@ -195,7 +213,8 @@ int main(){
         	cout<<"Lua chon cua ban la: ";
         	cin >> choice2;
 				if (choice2 == 1){}
-			} while (choice2 != 10);}
+			} 
+			while (choice2 != 10);}
 			else {
 				cout << "Sai tai khoan hoac mat khau!" << endl;};
 		}
