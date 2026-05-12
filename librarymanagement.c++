@@ -10,15 +10,15 @@ class Book {
 private:
 	string id;
 	string bookname;
-	string quantity;
+	int quantity;
 public:
-	Book(string id, string bookname, string quantity) : id(id), bookname(bookname), quantity(quantity) {};
+	Book(string id, string bookname, int quantity) : id(id), bookname(bookname), quantity(quantity) {};
 	string getID() const { return id; }
 	string getBookname() const { return bookname; }
-	string getQuantity() const { return quantity; }
+	int getQuantity() const { return quantity; }
 	void setID(const string id) { this->id = id;}
 	void setBookname(const string bookname) { this->bookname = bookname;}
-	void setQuantity(const string quantity) { this->quantity = quantity;}
+	void setQuantity(const int quantity) { this->quantity = quantity;}
 };
 class User{
 	protected:
@@ -85,7 +85,7 @@ class Librarysystem{
 		return true;
 	}
 	//Add new book
-	void Add_new_book(const string& id, const string& bookname, const string& quantity){
+	void Add_new_book(const string& id, const string& bookname, const int& quantity){
 		Books.push_back(Book(id, bookname, quantity));
 	}
 	//Find book by ID
@@ -110,7 +110,7 @@ class Librarysystem{
 		}
 	}
     //Hien thi danh sach sach hien co
-	void Danh_sach_sach_hien_co(){
+	void BookList(){
 		if(Books.empty()){
             cout<<"Danh sach rong"<<endl; 
             return;}   
@@ -123,16 +123,16 @@ class Librarysystem{
                 <<"|"<<setw(10)<<s.getBookname()
                 <<"|"<<setw(20)<<s.getQuantity()<<"|"<<endl;}}
 	
-
-	void loadFile_Books() {
+    void loadFile_Books() {
 		ifstream inFile(FILENAMEBOOKS);
 		string line;
 		while (getline(inFile, line)) {
 			stringstream ss(line);
-			string id, bookname, quantity;
+			string id, bookname;
+			int quantity;
 			getline(ss, id,',');
 			getline(ss, bookname,',');
-			getline(ss, quantity);
+			ss >> quantity;
 			Books.push_back(Book(id, bookname, quantity));
 		}
 		inFile.close();
@@ -180,6 +180,23 @@ class Librarysystem{
 		}
 		outFile.close();
 	}
+	//Hien thi danh sach nguoi dung
+	void UserList(){
+		if(Users.empty()){
+			cout << "Danh sach rong"<<endl;
+			return;}
+		cout << left; 
+		cout << "|" << setw(15) << "TEN NGUOI DUNG"
+             << "|" << setw(20) << "HO VA TEN"
+             << "|" << setw(15) << "SO DIEN THOAI"
+             << "|" << setw(25) << "EMAIL" << "|" << endl;
+		for(const auto& user : Users){
+        cout << "|" << setw(15) << user.getName()
+             << "|" << setw(20) << user.getFullname()
+             << "|" << setw(15) << user.getPhonenumber()
+             << "|" << setw(25) << user.getEmail() << "|" << endl;
+	    }
+    }
 };
 string Librarysystem::FILENAMEADMIN = "admin.txt";
 string Librarysystem::FILENAMEUSER = "user.txt";
@@ -224,37 +241,39 @@ int main(){
 			cout<<"======================================================"<<endl;
 	    	cout<<"||1.Them sach moi                                   ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
-        	cout<<"||2.Sua thong tin sach                              ||"<<endl;
+        	cout<<"||2.Cap nhat thong tin sach                         ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
-	    	cout<<"||3.Xoa sach                                        ||"<<endl;
+	    	cout<<"||3.Xoa sach khoi thu vien                          ||"<<endl;
     		cout<<"||--------------------------------------------------||"<<endl;
-	    	cout<<"||4.Thong ke luong sach hien co                     ||"<<endl;
+	    	cout<<"||4.Hien thi danh sach sach                         ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
-        	cout<<"||5.Xem danh sach tai khoan nguoi dung              ||"<<endl;
+	    	cout<<"||5.Duyet yeu cau muon sach                         ||"<<endl; 
+			cout<<"||--------------------------------------------------||"<<endl;
+			cout<<"||6.Xac nhan tra sach                               ||"<<endl; 
+			cout<<"||--------------------------------------------------||"<<endl;
+			cout<<"||7.Danh sach sach muon qua han                     ||"<<endl;
+			cout<<"||--------------------------------------------------||"<<endl;
+			cout<<"||8.Xem danh sach nguoi dung                        ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
-        	cout<<"||6.Xoa tai khoan vi pham                           ||"<<endl;
+        	cout<<"||9.Xoa/Khoa tai khoan vi pham                      ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
-	    	cout<<"||7.Thong ke sach bi muon qua han                   ||"<<endl; 
-			cout<<"||--------------------------------------------------||"<<endl;
-			cout<<"||8.Duyet yeu cau muon sach                         ||"<<endl; 
-			cout<<"||--------------------------------------------------||"<<endl;
-			cout<<"||9.Xac nhan nguoi dung tra sach                    ||"<<endl;
-			cout<<"||--------------------------------------------------||"<<endl;
 			cout<<"||10.Thoat                                          ||"<<endl;
 	    	cout<<"======================================================"<<endl;
         	cout<<"Lua chon cua ban: ";
         	cin >> choice2;
+			    //1.Them sach moi
 				if (choice2 == 1){
 					string id, bookname;
-					string quantity;
+					int quantity;
 					cin.ignore();
 					cout << "Nhap ID sach:"; getline(cin, id);
 					cout << "Nhap ten sach:"; getline(cin, bookname);
-					cout << "Nhap so luong:"; getline(cin, quantity);
+					cout << "Nhap so luong:"; cin >> quantity;
 					l.Add_new_book(id, bookname, quantity);
 					cout << "Da them sach moi thanh cong!" << endl;
 					l.saveFile_Books();
 				}
+				//2.Sua thong tin sach 
 				else if (choice2==2){
 					string id;
 					cout << "Nhap ID sach can sua:"; 
@@ -263,9 +282,9 @@ int main(){
 					Book* book = l.Find_book_by_id(id);
 					if (book!=nullptr) {
 						string bookname;
-						string quantity;
+						int quantity;
 						cout << "Nhap ten sach moi:"; getline(cin, bookname);
-						cout << "Nhap so luong moi:"; getline(cin, quantity);
+						cout << "Nhap so luong moi:"; cin >> quantity;
 						book->setBookname(bookname);
 						book->setQuantity(quantity);
 						cout << "Da cap nhat thong tin sach!" << endl;
@@ -273,6 +292,7 @@ int main(){
 						else {
 						cout << "Khong tim thay sach voi ID da nhap!" << endl;}
 				}
+				//3.Xoa sach
 				else if (choice2==3){
 					string id;
 					cout << "Nhap ID sach can xoa:"; 
@@ -286,13 +306,19 @@ int main(){
 					l.Delete_book(id);
 					l.saveFile_Books();
 				}}
+				//4.Hien thi Book list
 				else if(choice2 == 4){
-					l.Danh_sach_sach_hien_co();
-				}
+					l.BookList();}
+				//5.Duyet yeu cau muon sach
 				else if(choice2 == 5){}
+				//6.Xac nhan tra sach
 				else if(choice2 == 6){}
+				//7.Danh sach sach muon qua han
 				else if(choice2 == 7){}
-				else if(choice2 == 8){}
+				//8.Xem danh sach tai khoan nguoi dung
+				else if(choice2 == 8){
+					l.UserList();}
+				//9.Xoa tai khoan vi pham
 				else if(choice2 == 9){}
 			} while (choice2 != 10);}
 			else {
@@ -317,7 +343,7 @@ int main(){
 	    	cout<<"===           ===  ========  ===      ===   ========= "<<endl;
 	    	cout<<"------------------------------------------------------"<<endl;
 			cout<<"======================================================"<<endl;
-	    	cout<<"||1.Thong ke sach hien co                           ||"<<endl;
+	    	cout<<"||1.Xem danh sach sach                              ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
         	cout<<"||2.Tim sach theo ID hoac ten                       ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
@@ -362,4 +388,6 @@ int main(){
 	 	else {
             cout << "Lua chon khong hop le, vui long chon lai." << endl;
         }}
-     while (choice1 != 4);}
+        while (choice1 != 4);
+	return 0;
+}
