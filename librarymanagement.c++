@@ -4,15 +4,21 @@
 #include <string> 
 #include <vector> 
 #include <iomanip>
+#include <algorithm>// dung de su dung remove
 using namespace std;
 class Book {
 private:
 	string id;
 	string tensach;
-	int soluong;
+	string soluong;
 public:
-	Book(string id, string tensach, int soluong) : id(id), tensach(tensach), soluong(soluong) {};
-	
+	Book(string id, string tensach, string soluong) : id(id), tensach(tensach), soluong(soluong) {};
+	string getId() const { return id; }
+	string getTensach() const { return tensach; }
+	string getSoluong() const { return soluong; }
+	void setId(const string id) { this->id = id;}
+	void setTensach(const string tensach) { this->tensach = tensach;}
+	void setSoluong(const string soluong) { this->soluong = soluong;}
 };
 class User{
 	protected:
@@ -35,8 +41,10 @@ class Librarysystem{
 	private:
 		vector<Admin> Admins;
 		vector<User> Users;
+		vector<Book> Books;
 		static string FILENAMEUSER;
 		static string FILENAMEADMIN;
+		static string FILENAMEBOOKS;
 	public:
 	void Adminaccount(const Admin& a){
 		Admins.push_back(a);}
@@ -75,50 +83,96 @@ class Librarysystem{
 		Users.push_back(User(nameuser, password, fullname, phonenumber, email));
 		return true;
 	}
+	//them sach moi
+	void Add_new_book(const string& id, const string& tensach, const string& soluong){
+		Books.push_back(Book(id, tensach, soluong));
+	}
+	//tim sach theo ID
+	Book* Find_book_by_id(const string& id){
+		for (auto& book : Books) {
+			if (book.getId() == id) {
+				return &book;
+			}
+		}
+		return nullptr;
+	}
+	//xoa sach (ni chua hoc, chua hieu)
+	void Delete_book(const string& id){
+		auto it = remove_if(Books.begin(), Books.end(), [&id](const Book& book) {
+			return book.getId() == id;
+		});
+	    if (it != Books.end()) {
+			Books.erase(it, Books.end());
+			cout << "Da xoa sach co ID: " << id << endl;
+		} else {
+			cout << "Khong tim thay sach co ID: " << id << endl;
+		}
+	}
+	void Danh_sach_sach_hien_co(){
+		if(Books.empty()){
+            cout<<"Danh sach rong"<<endl; 
+            return;}   
+        cout << left;
+        cout<<"|"<<setw(15)<<"ID SACH"
+            <<"|"<<setw(10)<<"TEN SACH"
+            <<"|"<<setw(20)<<"SO LUONG"<<"|"<<endl;
+        for(auto s: Books){
+            cout<<"|"<<setw(15)<<s.getId()
+                <<"|"<<setw(10)<<s.getTensach()
+                <<"|"<<setw(20)<<s.getSoluong()<<"|"<<endl;}}
+	
+
+	void loadFile_Books() {
+		ifstream inFile(FILENAMEBOOKS);
+		string line;
+		while (getline(inFile, line)) {
+			stringstream ss(line);
+			string id, tensach, soluong;
+			getline(ss, id,',');
+			getline(ss, tensach,',');
+			getline(ss, soluong);
+			Books.push_back(Book(id, tensach, soluong));
+		}
+		inFile.close();
+	}
+	void saveFile_Books() {
+		ofstream outFile(FILENAMEBOOKS);
+		for (const auto& book : Books) {
+			outFile << book.getId() << "," << book.getTensach() << "," << book.getSoluong() << endl;}
+		outFile.close();
+	}
 	void loadFile_Admin() {
 		ifstream inFile(FILENAMEADMIN);
-		if (!inFile) {
-			cout << "Loi mo file admin!" << endl;
-			return;
-		}
 		string line;
 		while (getline(inFile, line)) {
 			stringstream ss(line);
 			string nameadmin, password, fullname, phonenumber, email;
-			getline(ss, nameadmin, ',');
-			getline(ss, password, ',');
-			getline(ss, fullname, ',');
-			getline(ss, phonenumber, ',');
-			getline(ss, email, ',');
+			getline(ss, nameadmin,',');
+			getline(ss, password,',');
+			getline(ss, fullname,',');
+			getline(ss, phonenumber,',');
+			getline(ss, email);
 			Admins.push_back(Admin(nameadmin, password, fullname, phonenumber, email));
 		}
 		inFile.close();
 	}
 	void loadFile_User (){
 		ifstream inFile(FILENAMEUSER);
-		if (!inFile) {
-			cout << "Loi mo file nguoi dung!" << endl;
-			return;
-		}
 		string line;
 		while (getline(inFile, line)) {
 			stringstream ss(line);
 			string nameuser, password, fullname, phonenumber, email;
-			getline(ss, nameuser, ',');
-			getline(ss, password, ',');
-			getline(ss, fullname, ',');
-			getline(ss, phonenumber, ',');
-			getline(ss, email, ',');
+			getline(ss, nameuser,',');
+			getline(ss, password,',');
+			getline(ss, fullname,',');
+			getline(ss, phonenumber,',');
+			getline(ss, email);
 			Users.push_back(User(nameuser, password, fullname, phonenumber, email));
 		}
 		inFile.close();
 	}
 	void saveFile_User() {
 		ofstream outFile(FILENAMEUSER);
-		if (!outFile) {
-			cout << "Loi mo file nguoi dung!" << endl;
-			return;
-		}
 		for (const auto& user : Users) {
 			outFile << user.getName() << "," << user.getPassword() << "," << user.getFullname() << "," << user.getPhonenumber() << "," << user.getEmail() << endl;
 		}
@@ -127,11 +181,12 @@ class Librarysystem{
 };
 string Librarysystem::FILENAMEADMIN = "admin.txt";
 string Librarysystem::FILENAMEUSER = "user.txt";
-
+string Librarysystem::FILENAMEBOOKS = "books.txt";
 int main(){
 	Librarysystem l;
 	l.loadFile_User();
 	l.loadFile_Admin();
+	l.loadFile_Books();
     int choice1,choice2,choice3,choice4;
     
     do {
@@ -187,7 +242,56 @@ int main(){
 	    	cout<<"======================================================"<<endl;
         	cout<<"Lua chon cua ban la: ";
         	cin >> choice2;
-				if (choice2 == 1){}
+				if (choice2 == 1){
+					string id, tensach;
+					string soluong;
+					cin.ignore();
+					cout << "Nhap ID sach:"; getline(cin, id);
+					cout << "Nhap ten sach:"; getline(cin, tensach);
+					cout << "Nhap so luong:"; getline(cin, soluong);
+					l.Add_new_book(id, tensach, soluong);
+					cout << "Da them sach moi thanh cong!" << endl;
+					l.saveFile_Books();
+				}
+				else if (choice2==2){
+					string id;
+					cout << "Nhap ID sach can sua:"; 
+					cin.ignore(); 
+					getline(cin, id);
+					Book* book = l.Find_book_by_id(id);
+					if (book!=nullptr) {
+						string tensach;
+						string soluong;
+						cout << "Nhap ten sach moi:"; getline(cin, tensach);
+						cout << "Nhap so luong moi:"; getline(cin,soluong);
+						book->setTensach(tensach);
+						book->setSoluong(soluong);
+						cout << "Da cap nhat thong tin sach!" << endl;
+						l.saveFile_Books();}
+						else {
+						cout << "Khong tim thay sach voi ID da nhap!" << endl;}
+				}
+				else if (choice2==3){
+					string id;
+					cout << "Nhap ID sach can xoa:"; 
+					cin.ignore(); 
+					getline(cin, id);
+					Book* book = l.Find_book_by_id(id);
+					if (book == nullptr) {
+						cout << "Khong tim thay sach voi ID da nhap!" << endl;
+					}
+					else {
+					l.Delete_book(id);
+					l.saveFile_Books();
+				}}
+				else if(choice2 == 4){
+					l.Danh_sach_sach_hien_co();
+				}
+				else if(choice2 == 5){}
+				else if(choice2 == 6){}
+				else if(choice2 == 7){}
+				else if(choice2 == 8){}
+				else if(choice2 == 9){}
 			} while (choice2 != 10);}
 			else {
 				cout << "Sai tai khoan hoac mat khau admin!" << endl;};
@@ -196,7 +300,6 @@ int main(){
 			string nameuser, passworduser;
 			cin.ignore();
 			cout<<"Ten dang nhap nguoi dung: ";getline(cin, nameuser);
-			cout<<endl;
 			cout<<"Mat khau nguoi dung: ";getline(cin, passworduser);
 			if(l.CheckUser(nameuser, passworduser)) {
 				cout << "Dang nhap nguoi dung thanh cong!" << endl;
@@ -213,7 +316,7 @@ int main(){
 			cout<<"======================================================"<<endl;
 	    	cout<<"||1.Xem danh sach tat ca loai sach hien co          ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
-        	cout<<"||2.Tim sach theo ten hoac ID                       ||"<<endl;
+        	cout<<"||2.Tim sach theo ID hoac ten                       ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
 	    	cout<<"||3.Gui yeu cau muon sach                           ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
