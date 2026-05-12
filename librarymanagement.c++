@@ -88,10 +88,10 @@ class Librarysystem{
 	void Add_new_book(const string& id, const string& bookname, const int& quantity){
 		Books.push_back(Book(id, bookname, quantity));
 	}
-	//Find book by ID
-	Book* Find_book_by_id(const string& id){
+	//Find book
+	Book* Find_book(const string& keyword){ //Ham tra ve dia chi cua sach tim duoc
 		for (auto& book : Books) {
-			if (book.getID() == id) {
+			if ((book.getID() == keyword)||(book.getBookname() == keyword)) {
 				return &book;
 			}
 		}
@@ -266,25 +266,25 @@ int main(){
 					string id, bookname;
 					int quantity;
 					cin.ignore();
-					cout << "Nhap ID sach:"; getline(cin, id);
-					cout << "Nhap ten sach:"; getline(cin, bookname);
-					cout << "Nhap so luong:"; cin >> quantity;
+					cout << "Nhap ID sach: "; getline(cin, id);
+					cout << "Nhap ten sach: "; getline(cin, bookname);
+					cout << "Nhap so luong: "; cin >> quantity;
 					l.Add_new_book(id, bookname, quantity);
 					cout << "Da them sach moi thanh cong!" << endl;
 					l.saveFile_Books();
 				}
 				//2.Sua thong tin sach 
 				else if (choice2==2){
-					string id;
-					cout << "Nhap ID sach can sua:"; 
+					string keyword;
+					cout << "Nhap ID hoac ten sach can cap nhat thong tin: "; 
 					cin.ignore(); 
-					getline(cin, id);
-					Book* book = l.Find_book_by_id(id);
+					getline(cin, keyword);
+					Book* book = l.Find_book(keyword);
 					if (book!=nullptr) {
 						string bookname;
 						int quantity;
-						cout << "Nhap ten sach moi:"; getline(cin, bookname);
-						cout << "Nhap so luong moi:"; cin >> quantity;
+						cout << "Nhap ten sach moi: "; getline(cin, bookname);
+						cout << "Nhap so luong moi: "; cin >> quantity;
 						book->setBookname(bookname);
 						book->setQuantity(quantity);
 						cout << "Da cap nhat thong tin sach!" << endl;
@@ -294,16 +294,16 @@ int main(){
 				}
 				//3.Xoa sach
 				else if (choice2==3){
-					string id;
-					cout << "Nhap ID sach can xoa:"; 
+					string keyword;
+					cout << "Nhap ID hoac ten sach can xoa: "; 
 					cin.ignore(); 
-					getline(cin, id);
-					Book* book = l.Find_book_by_id(id);
+					getline(cin, keyword);
+					Book* book = l.Find_book(keyword);
 					if (book == nullptr) {
-						cout << "Khong tim thay sach voi ID da nhap!" << endl;
+						cout << "Khong tim thay sach!" << endl;
 					}
 					else {
-					l.Delete_book(id);
+					l.Delete_book(keyword);
 					l.saveFile_Books();
 				}}
 				//4.Hien thi Book list
@@ -359,11 +359,39 @@ int main(){
 	    	cout<<"======================================================"<<endl;
         	cout<<"Lua chon cua ban la: ";
         	cin >> choice3;
-			if (choice3 == 1){}
-			} while (choice3 != 7);}
+			//1.Hien thi Book list
+			if (choice3 == 1){
+				l.BookList();
+			}
+			//2.Tim sach theo ID hoac ten
+			else if (choice3 == 2){
+				string keyword;
+				cin.ignore();
+				cout << "Nhap ID hoac ten sach can tim: " << endl;
+				getline(cin, keyword);
+				Book* book = l.Find_book(keyword);
+				if (book != nullptr){
+					cout << "ID: " << book->getID() << endl
+					     << "Ten sach: " << book->getBookname() << endl
+						 << "So luong: " << book->getQuantity() << endl;
+				}
+				else {
+					cout << "Khong tim thay sach!" << endl;
+				}
+			}
+			//3.Gui yeu cau muon sach
+			else if (choice3 == 3){}
+			//4.Thong ke sach dang muon va ngay tra
+			else if (choice3 == 4){}
+			//5.Doi mat khau
+			else if (choice3 == 5){}
+			//6.Chinh sua thong tin ca nhan
+			else if (choice3 == 6){}
+		    } while (choice3 != 7);}
 			else {
 				cout << "Sai tai khoan hoac mat khau!" << endl;}
 		}
+		//Dang ky tai khoan User
 		else if (choice1==3){
 			string nameuser, passworduser, fullname, phonenumber, email;
 			cin.ignore();
