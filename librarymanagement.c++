@@ -9,16 +9,16 @@ using namespace std;
 class Book {
 private:
 	string id;
-	string tensach;
-	string soluong;
+	string bookname;
+	string quantity;
 public:
-	Book(string id, string tensach, string soluong) : id(id), tensach(tensach), soluong(soluong) {};
-	string getId() const { return id; }
-	string getTensach() const { return tensach; }
-	string getSoluong() const { return soluong; }
-	void setId(const string id) { this->id = id;}
-	void setTensach(const string tensach) { this->tensach = tensach;}
-	void setSoluong(const string soluong) { this->soluong = soluong;}
+	Book(string id, string bookname, string quantity) : id(id), bookname(bookname), quantity(quantity) {};
+	string getID() const { return id; }
+	string getBookname() const { return bookname; }
+	string getQuantity() const { return quantity; }
+	void setID(const string id) { this->id = id;}
+	void setBookname(const string bookname) { this->bookname = bookname;}
+	void setQuantity(const string quantity) { this->quantity = quantity;}
 };
 class User{
 	protected:
@@ -84,13 +84,13 @@ class Librarysystem{
 		return true;
 	}
 	//them sach moi
-	void Add_new_book(const string& id, const string& tensach, const string& soluong){
-		Books.push_back(Book(id, tensach, soluong));
+	void Add_new_book(const string& id, const string& bookname, const string& quantity){
+		Books.push_back(Book(id, bookname, quantity));
 	}
 	//tim sach theo ID
 	Book* Find_book_by_id(const string& id){
 		for (auto& book : Books) {
-			if (book.getId() == id) {
+			if (book.getID() == id) {
 				return &book;
 			}
 		}
@@ -99,7 +99,7 @@ class Librarysystem{
 	//xoa sach (ni chua hoc, chua hieu)
 	void Delete_book(const string& id){
 		auto it = remove_if(Books.begin(), Books.end(), [&id](const Book& book) {
-			return book.getId() == id;
+			return book.getID() == id;
 		});
 	    if (it != Books.end()) {
 			Books.erase(it, Books.end());
@@ -117,9 +117,9 @@ class Librarysystem{
             <<"|"<<setw(10)<<"TEN SACH"
             <<"|"<<setw(20)<<"SO LUONG"<<"|"<<endl;
         for(auto s: Books){
-            cout<<"|"<<setw(15)<<s.getId()
-                <<"|"<<setw(10)<<s.getTensach()
-                <<"|"<<setw(20)<<s.getSoluong()<<"|"<<endl;}}
+            cout<<"|"<<setw(15)<<s.getID()
+                <<"|"<<setw(10)<<s.getBookname()
+                <<"|"<<setw(20)<<s.getQuantity()<<"|"<<endl;}}
 	
 
 	void loadFile_Books() {
@@ -127,18 +127,18 @@ class Librarysystem{
 		string line;
 		while (getline(inFile, line)) {
 			stringstream ss(line);
-			string id, tensach, soluong;
+			string id, bookname, quantity;
 			getline(ss, id,',');
-			getline(ss, tensach,',');
-			getline(ss, soluong);
-			Books.push_back(Book(id, tensach, soluong));
+			getline(ss, bookname,',');
+			getline(ss, quantity);
+			Books.push_back(Book(id, bookname, quantity));
 		}
 		inFile.close();
 	}
 	void saveFile_Books() {
 		ofstream outFile(FILENAMEBOOKS);
 		for (const auto& book : Books) {
-			outFile << book.getId() << "," << book.getTensach() << "," << book.getSoluong() << endl;}
+			outFile << book.getID() << "," << book.getBookname() << "," << book.getQuantity() << endl;}
 		outFile.close();
 	}
 	void loadFile_Admin() {
@@ -260,12 +260,12 @@ int main(){
 					getline(cin, id);
 					Book* book = l.Find_book_by_id(id);
 					if (book!=nullptr) {
-						string tensach;
-						string soluong;
-						cout << "Nhap ten sach moi:"; getline(cin, tensach);
-						cout << "Nhap so luong moi:"; getline(cin,soluong);
-						book->setTensach(tensach);
-						book->setSoluong(soluong);
+						string bookname;
+						string quantity;
+						cout << "Nhap ten sach moi:"; getline(cin, bookname);
+						cout << "Nhap so luong moi:"; getline(cin, quantity);
+						book->setBookname(bookname);
+						book->setQuantity(quantity);
 						cout << "Da cap nhat thong tin sach!" << endl;
 						l.saveFile_Books();}
 						else {
