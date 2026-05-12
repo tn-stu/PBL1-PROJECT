@@ -245,13 +245,13 @@ int main(){
         	cout<<"Lua chon cua ban: ";
         	cin >> choice2;
 				if (choice2 == 1){
-					string id, tensach;
-					string soluong;
+					string id, bookname;
+					string quantity;
 					cin.ignore();
 					cout << "Nhap ID sach:"; getline(cin, id);
-					cout << "Nhap ten sach:"; getline(cin, tensach);
-					cout << "Nhap so luong:"; getline(cin, soluong);
-					l.Add_new_book(id, tensach, soluong);
+					cout << "Nhap ten sach:"; getline(cin, bookname);
+					cout << "Nhap so luong:"; getline(cin, quantity);
+					l.Add_new_book(id, bookname, quantity);
 					cout << "Da them sach moi thanh cong!" << endl;
 					l.saveFile_Books();
 				}
