@@ -48,7 +48,7 @@ class Librarysystem{
 	public:
 	void Adminaccount(const Admin& a){
 		Admins.push_back(a);}
-	//kiem tra tai khoan admin da ton tai chua
+	//Check account để sign in
 	bool CheckAdmin(const string& nameadmin, const string& password){
 		for (const auto& admin : Admins) {
 			if (admin.getName() == nameadmin && admin.getPassword() == password) {
@@ -65,10 +65,11 @@ class Librarysystem{
 		}
 		return false;
 	}
+	//Sign up
 	bool Add_New_Account(const string& nameuser, const string& password, const string& fullname, const string& phonenumber, const string& email){
 		for (const auto& user : Users) {
 			if (user.getName() == nameuser) {
-				cout << "Vui long chon ten dang nhap khac!" << endl;
+				cout << "Ten dang nhap da ton tai. Vui long chon ten dang nhap khac!" << endl;
 				return false;
 			}
 			if (user.getEmail() == email || user.getPhonenumber() == phonenumber) {
@@ -83,11 +84,11 @@ class Librarysystem{
 		Users.push_back(User(nameuser, password, fullname, phonenumber, email));
 		return true;
 	}
-	//them sach moi
+	//Add new book
 	void Add_new_book(const string& id, const string& bookname, const string& quantity){
 		Books.push_back(Book(id, bookname, quantity));
 	}
-	//tim sach theo ID
+	//Find book by ID
 	Book* Find_book_by_id(const string& id){
 		for (auto& book : Books) {
 			if (book.getID() == id) {
@@ -96,7 +97,7 @@ class Librarysystem{
 		}
 		return nullptr;
 	}
-	//xoa sach (ni chua hoc, chua hieu)
+	//Delete book by ID (ni chua hoc, chua hieu)
 	void Delete_book(const string& id){
 		auto it = remove_if(Books.begin(), Books.end(), [&id](const Book& book) {
 			return book.getID() == id;
@@ -108,6 +109,7 @@ class Librarysystem{
 			cout << "Khong tim thay sach co ID: " << id << endl;
 		}
 	}
+    //Hien thi danh sach sach hien co
 	void Danh_sach_sach_hien_co(){
 		if(Books.empty()){
             cout<<"Danh sach rong"<<endl; 
@@ -182,33 +184,33 @@ class Librarysystem{
 string Librarysystem::FILENAMEADMIN = "admin.txt";
 string Librarysystem::FILENAMEUSER = "user.txt";
 string Librarysystem::FILENAMEBOOKS = "books.txt";
+
 int main(){
 	Librarysystem l;
 	l.loadFile_User();
 	l.loadFile_Admin();
 	l.loadFile_Books();
     int choice1,choice2,choice3,choice4;
-    
     do {
         cout<<"==========================================="<<endl;
-	    cout<<"||1.Dang nhap voi tu cach la admin       ||"<<endl;
+	    cout<<"||1.Dang nhap voi tu cach la Admin       ||"<<endl;
 		cout<<"||---------------------------------------||"<<endl;
-        cout<<"||2.Dang nhap voi tu cach la nguoi dung  ||"<<endl;
+        cout<<"||2.Dang nhap voi tu cach la User        ||"<<endl;
 		cout<<"||---------------------------------------||"<<endl;
-        cout<<"||3.Dang ky tai khoan                    ||"<<endl;  
+        cout<<"||3.Dang ky tai khoan User               ||"<<endl;  
 		cout<<"||---------------------------------------||"<<endl;
         cout<<"||4.Thoat                                ||"<<endl;                          
 	    cout<<"==========================================="<<endl;
-        cout<<"Lua chon cua ban la: ";
+        cout<<"Lua chon cua ban: ";
         cin >> choice1;
 		//Dang nhap tk admin
         if (choice1 ==1){
 			string name_admin, password_admin;
 			cin.ignore();
-			cout<<"Ten dang nhap admin: ";getline(cin, name_admin);
-			cout<<"Mat khau admin: ";getline(cin, password_admin);
+			cout<<"Ten dang nhap: ";getline(cin, name_admin);
+			cout<<"Mat khau: ";getline(cin, password_admin);
 			if(l.CheckAdmin(name_admin, password_admin)) {
-				cout << "Dang nhap admin thanh cong!" << endl;
+				cout << "Dang nhap thanh cong!" << endl;
 			do {
 			cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
 	    	cout<<"======     ======  ========  ======    ==  ===     ==="<<endl;
@@ -294,15 +296,15 @@ int main(){
 				else if(choice2 == 9){}
 			} while (choice2 != 10);}
 			else {
-				cout << "Sai tai khoan hoac mat khau admin!" << endl;};
+				cout << "Sai tai khoan hoac mat khau!" << endl;};
 		}
 		else if (choice1==2){
 			string nameuser, passworduser;
 			cin.ignore();
-			cout<<"Ten dang nhap nguoi dung: ";getline(cin, nameuser);
-			cout<<"Mat khau nguoi dung: ";getline(cin, passworduser);
+			cout<<"Ten dang nhap: ";getline(cin, nameuser);
+			cout<<"Mat khau: ";getline(cin, passworduser);
 			if(l.CheckUser(nameuser, passworduser)) {
-				cout << "Dang nhap nguoi dung thanh cong!" << endl;
+				cout << "Dang nhap thanh cong!" << endl;
 			do {
 			cout<<"=====       =====  ========  =====     ==  ===     ==="<<endl;
 	    	cout<<"======     ======  ========  ======    ==  ===     ==="<<endl;
@@ -333,16 +335,16 @@ int main(){
 			if (choice3 == 1){}
 			} while (choice3 != 7);}
 			else {
-				cout << "Sai tai khoan hoac mat khau nguoi dung!" << endl;}
+				cout << "Sai tai khoan hoac mat khau!" << endl;}
 		}
 		else if (choice1==3){
 			string nameuser, passworduser, fullname, phonenumber, email;
 			cin.ignore();
 			bool value = false;
 			while (!value) {
-			cout<<"Ten dang nhap nguoi dung: ";getline(cin, nameuser);
+			cout<<"Ten dang nhap: ";getline(cin, nameuser);
 			cout<<endl;
-			cout<<"Mat khau nguoi dung: ";getline(cin, passworduser);
+			cout<<"Mat khau: ";getline(cin, passworduser);
 			cout<<endl;
 			cout<<"Ho va ten: "; getline(cin, fullname);
 			cout<<endl;
