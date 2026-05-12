@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 A,123,Le Nhat Minh,0935505846,stormocean80@gmail.com
 A,123,Le Nhat Minh,0935505846,stormocean80@gmail
 ,,,,
 U,1234,doãn hoang long,0935505839,Hoang@gmail.com
 3,adjad,adijsfij,djakjd,stormjsfjs
+=======
+NhatMinhStipud | 123 | Le Nhat Minh      | 0935505846 | stormocean80@gmail.com
+ThaoNganSmart  | 456 | Mai Thi Thao Ngan | 0702357952 | thaonganmai1301@gmail.com
+MinMinStupid   | 789 | Minh Le Nhat      | 1234567890 | hihihihi@gmail.com
+>>>>>>> 7a6e4601fee1f66b2e48a02ab5231a33bba24398
