@@ -203,7 +203,7 @@ int main(){
 	    cout<<"==========================================="<<endl;
         cout<<"Lua chon cua ban: ";
         cin >> choice1;
-		//Dang nhap tk admin
+		//Admin menu
         if (choice1 ==1){
 			string name_admin, password_admin;
 			cin.ignore();
@@ -230,11 +230,11 @@ int main(){
     		cout<<"||--------------------------------------------------||"<<endl;
 	    	cout<<"||4.Thong ke luong sach hien co                     ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
-        	cout<<"||5.Xem danh sach tat ca tai khoan nguoi dung       ||"<<endl;
+        	cout<<"||5.Xem danh sach tai khoan nguoi dung              ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
         	cout<<"||6.Xoa tai khoan vi pham                           ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
-	    	cout<<"||7.Xem danh sach sach dang bi muon qua han         ||"<<endl; 
+	    	cout<<"||7.Thong ke sach bi muon qua han                   ||"<<endl; 
 			cout<<"||--------------------------------------------------||"<<endl;
 			cout<<"||8.Duyet yeu cau muon sach                         ||"<<endl; 
 			cout<<"||--------------------------------------------------||"<<endl;
@@ -242,7 +242,7 @@ int main(){
 			cout<<"||--------------------------------------------------||"<<endl;
 			cout<<"||10.Thoat                                          ||"<<endl;
 	    	cout<<"======================================================"<<endl;
-        	cout<<"Lua chon cua ban la: ";
+        	cout<<"Lua chon cua ban: ";
         	cin >> choice2;
 				if (choice2 == 1){
 					string id, tensach;
@@ -298,6 +298,7 @@ int main(){
 			else {
 				cout << "Sai tai khoan hoac mat khau!" << endl;};
 		}
+		//User menu
 		else if (choice1==2){
 			string nameuser, passworduser;
 			cin.ignore();
@@ -316,13 +317,13 @@ int main(){
 	    	cout<<"===           ===  ========  ===      ===   ========= "<<endl;
 	    	cout<<"------------------------------------------------------"<<endl;
 			cout<<"======================================================"<<endl;
-	    	cout<<"||1.Xem danh sach tat ca loai sach hien co          ||"<<endl;
+	    	cout<<"||1.Thong ke sach hien co                           ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
         	cout<<"||2.Tim sach theo ID hoac ten                       ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
 	    	cout<<"||3.Gui yeu cau muon sach                           ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
-        	cout<<"||4.Xem danh sach sach dang muon va ngay phai tra   ||"<<endl;
+        	cout<<"||4.Thong ke sach dang muon va ngay tra             ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
         	cout<<"||5.Doi mat khau                                    ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
