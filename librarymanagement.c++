@@ -356,9 +356,9 @@ int main(){
 					cin.ignore();
 					bool value = false;
 					while (!value) {
-					cout<<"Ten dang nhap admin: ";getline(cin, nameadmin);
+					cout<<"Ten dang nhap: ";getline(cin, nameadmin);
 					cout<<endl;
-					cout<<"Mat khau admin: ";getline(cin, password);
+					cout<<"Mat khau: ";getline(cin, password);
 					cout<<endl;
 					cout<<"Ho va ten: "; getline(cin, fullname);
 					cout<<endl;
@@ -366,7 +366,7 @@ int main(){
 					cout<<endl;
 					cout<<"Email: "; getline(cin, email);
 					if (l.Add_New_Admin(nameadmin, password, fullname, phonenumber, email)){
-						cout << "Da them tai khoan admin moi thanh cong!" << endl;
+						cout << "Them tai khoan thanh cong!" << endl;
 						l.saveFile_Admin();
 						value = true;}
 				}
