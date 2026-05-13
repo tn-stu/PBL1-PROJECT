@@ -123,7 +123,7 @@ class Librarysystem{
 			}
 			return false;
 		});
-	    if (it != Books.end()) {
+	   if (it != Books.end()) {
 			Books.erase(it, Books.end());
 			cout << "Da xoa sach : " << keyword << endl;
 		} else {
