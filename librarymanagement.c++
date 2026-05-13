@@ -31,6 +31,9 @@ class User{
 	string getFullname() const{return fullname;}
 	string getPhonenumber() const{return phonenumber;}
 	string getEmail() const{return email;}
+	void setFullname(const string& fullname){ this->fullname = fullname; }
+	void setPhonenumber(const string& phonenumber){ this->phonenumber = phonenumber; }
+	void setEmail(const string& email){ this->email = email; }
 };
 class Admin: public User{
 	public:
@@ -84,6 +87,7 @@ class Librarysystem{
 		Admins.push_back(Admin(nameadmin, password, fullname, phonenumber, email));
 		return true;
 	}
+	//Them User account
 	bool Add_New_Account(const string& nameuser, const string& password, const string& fullname, const string& phonenumber, const string& email){
 		for (const auto& user : Users) {
 			if (user.getName() == nameuser) {
@@ -129,6 +133,23 @@ class Librarysystem{
 		} else {
 			cout << "Khong tim thay sach: " << keyword << endl;
 		}
+	}
+	//Chinh sua thong tin ca nhan
+	void EditProfile(const string& username, const string& password){
+		for(auto& user : Users){
+			if(user.getName() == username && user.getPassword() == password){
+				string fullname, phonenumber, email;
+				cout << "Nhap ho va ten moi: "; getline(cin, fullname);
+				cout << "Nhap so dien thoai moi: "; getline(cin, phonenumber);
+				cout << "Nhap email moi: "; getline(cin, email);
+				user.setFullname(fullname);
+				user.setPhonenumber(phonenumber);
+				user.setEmail(email);
+				cout << "Cap nhat thong tin thanh cong!" << endl;
+				return;
+			}
+		}
+		cout << "Sai ten dang nhap hoac mat khau!" << endl;
 	}
     //Hien thi danh sach sach hien co
 	void BookList(){
@@ -436,7 +457,14 @@ int main(){
 			//5.Doi mat khau
 			else if (choice3 == 5){}
 			//6.Chinh sua thong tin ca nhan
-			else if (choice3 == 6){}
+			else if (choice3 == 6){
+				string username, password;
+				cin.ignore();
+				cout << "Ten dang nhap: "; getline(cin, username);
+				cout << "Mat khau: "; getline(cin, password);
+				l.EditProfile(username, password);
+				l.saveFile_User();
+			}
 		    } while (choice3 != 7);}
 			else {
 				cout << "Sai tai khoan hoac mat khau!" << endl;}

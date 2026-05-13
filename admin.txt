@@ -1,6 +1,4 @@
-A|123|Le Minh Nhat|0000000000|stormocean08@gmail.com
+A|111|Le Minh Nhat|0000000000|stormocean08@gmail.com
 ThhhNgggSmart|222|Thao Ngan Mai Thi|1111111111|thaonganmai13@gmail.com
 MinMinStipud|333|Minh Minh Le|2222222222|minmin80@gmail.com
-||||
-||||
-Minh|123|Le Nhat Minh|93929292|kkk@
+Minh|444|Le Nhat Minh|93929292|kkk@gmail.com
