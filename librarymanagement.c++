@@ -134,8 +134,15 @@ class Librarysystem{
 		cout << "Khong tim thay tai khoan!" << endl;
 	}
 	//Add new book
-	void Add_new_book(const string& id, const string& bookname, const int& quantity){
+	bool Add_new_book(const string& id, const string& bookname, const int& quantity){
+		for(auto& book : Books){
+			if(book.getID() == id || book.getBookname() == bookname){
+				cout << "Sach da ton tai!" << endl;
+				return false;
+			}
+		}
 		Books.push_back(Book(id, bookname, quantity));
+		return true;
 	}
 	//Find book
 	Book* Find_book(const string& keyword){ //Ham tra ve dia chi cua sach tim duoc
