@@ -34,6 +34,7 @@ class User{
 	void setFullname(const string& fullname){ this->fullname = fullname; }
 	void setPhonenumber(const string& phonenumber){ this->phonenumber = phonenumber; }
 	void setEmail(const string& email){ this->email = email; }
+	void setPassword(const string& password){ this->password = password; }
 };
 class Admin: public User{
 	public:
@@ -150,6 +151,17 @@ class Librarysystem{
 			}
 		}
 		cout << "Sai ten dang nhap hoac mat khau!" << endl;
+	}
+	//Doi password user account
+	void ChangePass(const string& username, const string& oldpass, const string& newpass){
+		for(auto& user : Users){
+			if(user.getName() == username && user.getPassword() == oldpass){
+				user.setPassword(newpass);
+				cout << "Doi mat khau thanh cong!" << endl;
+				return;
+			}
+		}
+		cout << "Sai mat khau!" << endl;
 	}
     //Hien thi danh sach sach hien co
 	void BookList(){
@@ -455,7 +467,16 @@ int main(){
 			//4.Thong ke sach dang muon va ngay tra
 			else if (choice3 == 4){}
 			//5.Doi mat khau
-			else if (choice3 == 5){}
+			else if (choice3 == 5){
+				string username, oldpass, newpass;
+				cin.ignore();
+				cout << "Ten dang nhap: "; getline(cin, username);
+				cout << "Mat khau: "; getline(cin, oldpass);
+				cout << "Mat khau moi: "; getline(cin, newpass);
+				l.ChangePass(username, oldpass, newpass);
+				l.saveFile_User();
+
+			}
 			//6.Chinh sua thong tin ca nhan
 			else if (choice3 == 6){
 				string username, password;
@@ -490,7 +511,6 @@ int main(){
 		    value = true;}
 		}
 	}
-			
 	 	else {
             cout << "Lua chon khong hop le, vui long chon lai." << endl;
         }}
