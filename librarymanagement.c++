@@ -12,22 +12,29 @@ private:
 	string bookname;
 	int quantity;
 public:
-	Book(string id, string bookname, int quantity) : id(id), bookname(bookname), quantity(quantity) {};
+	Book(const string& id, const string& bookname, int quantity) : id(id), bookname(bookname), quantity(quantity) {};
 	string getID() const { return id; }
 	string getBookname() const { return bookname; }
 	int getQuantity() const { return quantity; }
-	void setID(const string id) { this->id = id;}
-	void setBookname(const string bookname) { this->bookname = bookname;}
-	void setQuantity(const int quantity) { this->quantity = quantity;}
+	void setID(const string& id) { this->id = id;}
+	void setBookname(const string& bookname) { this->bookname = bookname;}
+	void setQuantity(const int quantity) { 
+		if(quantity >= 0){
+            this->quantity = quantity;
+		}
+		else{
+			cout << "So luong sach khong hop le!" << endl;
+		}
+	}
 };
 class User{
 	protected:
-		string Nameacount, password, fullname,phonenumber,email;
+		string username, password, fullname,phonenumber,email;
 		bool locked;
 	public:	
-	User(string Nameacount, string password, string fullname, string phonenumber, string email, bool locked = false): 
-	Nameacount(Nameacount), password(password), fullname(fullname), phonenumber(phonenumber), email(email), locked(locked){};
-	string getName() const{return Nameacount;}
+	User(const string& username, const string& password, const string& fullname, const string& phonenumber, const string& email, bool locked = false): 
+	username(username), password(password), fullname(fullname), phonenumber(phonenumber), email(email), locked(locked){};
+	string getName() const{return username;}
 	string getPassword() const{return password;}
 	string getFullname() const{return fullname;}
 	string getPhonenumber() const{return phonenumber;}
@@ -42,8 +49,8 @@ class User{
 };
 class Admin: public User{
 	public:
-	Admin(string Nameacount, string password,string fullname, string phonenumber, string email): 
-	User(Nameacount, password, fullname, phonenumber, email){};
+	Admin(const string& username, const string& password, const string& fullname, const string& phonenumber, const string& email): 
+	User(username, password, fullname, phonenumber, email){};
 };
 class Librarysystem{
 	private:
@@ -133,10 +140,25 @@ class Librarysystem{
 		}
 		cout << "Khong tim thay tai khoan!" << endl;
 	}
+	//Unlock User
+	void Unlock_User(const string& username){
+		for(auto& user : Users){
+			if(user.getName() == username){
+			    user.UnlockAcc();
+			    cout << "Da mo khoa tai khoan!" << endl;
+			    return;
+			}
+		}
+		cout << "Khong tim thay tai khoan!" << endl;
+	}
 	//Add new book
 	bool Add_new_book(const string& id, const string& bookname, const int& quantity){
-		for(auto& book : Books){
-			if(book.getID() == id || book.getBookname() == bookname){
+		if(id.empty() || bookname.empty() || quantity <= 0){
+			cout << "Thong tin sach khong hop le. Vui long nhap lai!" << endl;
+			return false;
+		}
+		for(const auto& book : Books){
+			if(book.getID() == id){
 				cout << "Sach da ton tai!" << endl;
 				return false;
 			}
@@ -203,15 +225,20 @@ class Librarysystem{
             return;}   
         cout << left;
         cout<<"|"<<setw(15)<<"ID SACH"
-            <<"|"<<setw(10)<<"TEN SACH"
-            <<"|"<<setw(20)<<"SO LUONG"<<"|"<<endl;
-        for(auto s: Books){
+            <<"|"<<setw(30)<<"TEN SACH"
+            <<"|"<<setw(10)<<"SO LUONG"<<"|"<<endl;
+        for(const auto& s: Books){
             cout<<"|"<<setw(15)<<s.getID()
-                <<"|"<<setw(10)<<s.getBookname()
-                <<"|"<<setw(20)<<s.getQuantity()<<"|"<<endl;}}
+                <<"|"<<setw(30)<<s.getBookname()
+                <<"|"<<setw(10)<<s.getQuantity()
+				<<"|"<<endl;}}
 	
     void loadFile_Books() {
 		ifstream inFile(FILENAMEBOOKS);
+		if(!inFile){
+        cout << "Khong the mo file books.txt!" << endl;
+        return;
+        }
 		string line;
 		while (getline(inFile, line)) {
 			stringstream ss(line);
@@ -226,12 +253,20 @@ class Librarysystem{
 	}
 	void saveFile_Books() {
 		ofstream outFile(FILENAMEBOOKS);
+		if(!outFile){
+        cout << "Khong the ghi file books.txt!" << endl;
+        return;
+        }
 		for (const auto& book : Books) {
 			outFile << book.getID() << "|" << book.getBookname() << "|" << book.getQuantity() << endl;}
 		outFile.close();
 	}
 	void loadFile_Admin() {
 		ifstream inFile(FILENAMEADMIN);
+		if(!inFile){
+        cout << "Khong the mo file admin.txt!" << endl;
+        return;
+        }
 		string line;
 		while (getline(inFile, line)) {
 			stringstream ss(line);
@@ -247,13 +282,25 @@ class Librarysystem{
 	}
 	void saveFile_Admin() {
 		ofstream outFile(FILENAMEADMIN);
+		if(!outFile){
+            cout << "Khong the ghi file admin.txt!" << endl;
+            return;
+        }
 		for (const auto& admin : Admins) {
-			outFile << admin.getName() << "|" << admin.getPassword() << "|" << admin.getFullname() << "|" << admin.getPhonenumber() << "|" << admin.getEmail() << endl;
+			outFile << admin.getName() << "|" 
+			        << admin.getPassword() << "|" 
+					<< admin.getFullname() << "|" 
+					<< admin.getPhonenumber() << "|" 
+					<< admin.getEmail() << endl;
 		}
 		outFile.close();
 	}
 	void loadFile_User (){
 		ifstream inFile(FILENAMEUSER);
+		if(!inFile){
+        cout << "Khong the mo file user.txt!" << endl;
+        return;
+        }
 		string line;
 		while (getline(inFile, line)) {
 			stringstream ss(line);
@@ -271,6 +318,10 @@ class Librarysystem{
 	}
 	void saveFile_User() {
 		ofstream outFile(FILENAMEUSER);
+		if(!outFile){
+            cout << "Khong the ghi file user.txt!" << endl;
+            return;
+        }
 		for (const auto& user : Users) {
 			outFile << user.getName() << "|" 
 			        << user.getPassword() << "|" 
@@ -364,9 +415,11 @@ int main(){
 	    	cout<<"||--------------------------------------------------||"<<endl;
         	cout<<"||9.Khoa tai khoan vi pham                          ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
-			cout<<"||10.Them tai khoan admin                           ||"<<endl;
+			cout<<"||10.Mo khoa tai khoan User                         ||"<<endl;
+			cout<<"||--------------------------------------------------||"<<endl;
+			cout<<"||11.Them tai khoan admin                           ||"<<endl;
 	    	cout<<"||--------------------------------------------------||"<<endl;
-			cout<<"||11.Thoat                                          ||"<<endl;
+			cout<<"||12.Thoat                                          ||"<<endl;
 	    	cout<<"======================================================"<<endl;
         	cout<<"Lua chon cua ban: ";
         	cin >> choice2;
@@ -378,9 +431,10 @@ int main(){
 					cout << "Nhap ID sach: "; getline(cin, id);
 					cout << "Nhap ten sach: "; getline(cin, bookname);
 					cout << "Nhap so luong: "; cin >> quantity;
-					l.Add_new_book(id, bookname, quantity);
-					cout << "Da them sach moi thanh cong!" << endl;
-					l.saveFile_Books();
+					if(l.Add_new_book(id, bookname, quantity)){
+					    cout << "Da them sach moi thanh cong!" << endl;
+						l.saveFile_Books();
+					}
 				}
 				//2.Sua thong tin sach 
 				else if (choice2==2){
@@ -395,10 +449,11 @@ int main(){
 						cout << "Nhap ten sach moi: "; getline(cin, bookname);
 						cout << "Nhap so luong moi: "; cin >> quantity;
 						book->setBookname(bookname);
-						book->setQuantity(quantity);
-						cout << "Da cap nhat thong tin sach!" << endl;
-						l.saveFile_Books();}
-						else {
+                        book->setQuantity(quantity);
+                        cout << "Da cap nhat thong tin sach!" << endl;
+						l.saveFile_Books();
+						}
+					else {
 						cout << "Khong tim thay sach voi ID da nhap!" << endl;}
 				}
 				//3.Xoa sach
@@ -436,8 +491,17 @@ int main(){
 					l.Lock_User(username);
 					l.saveFile_User();
 				}
-				//10.Them tai khoan admin
+				//10.Mo khoa tai khoan User
 				else if(choice2 == 10){
+					string username;
+					cin.ignore();
+					cout << "Nhap tai khoan can mo khoa: " << endl;
+					getline(cin, username);
+					l.Unlock_User(username);
+					l.saveFile_User();
+				}
+				//11.Them tai khoan admin
+				else if(choice2 == 11){
 					string nameadmin, password, fullname, phonenumber, email;
 					cin.ignore();
 					bool value = false;
@@ -456,7 +520,7 @@ int main(){
 						l.saveFile_Admin();
 						value = true;}
 				}
-			}} while (choice2 != 11);}
+			}} while (choice2 != 12);}
 			else {
 				cout << "Sai tai khoan hoac mat khau!" << endl;};
 		}
@@ -550,13 +614,9 @@ int main(){
 			bool value = false;
 			while (!value) {
 			cout<<"Ten dang nhap: ";getline(cin, nameuser);
-			cout<<endl;
 			cout<<"Mat khau: ";getline(cin, passworduser);
-			cout<<endl;
 			cout<<"Ho va ten: "; getline(cin, fullname);
-			cout<<endl;
 			cout<<"So dien thoai: "; getline(cin, phonenumber);
-			cout<<endl;
 			cout<<"Email: "; getline(cin, email);
 			if (l.Add_New_Account(nameuser, passworduser, fullname, phonenumber, email)){
 			cout << "Dang ky tai khoan thanh cong!" << endl;
@@ -564,7 +624,7 @@ int main(){
 		    value = true;}
 		}
 	}
-	 	else {
+	 	else if (choice1 != 4) {
             cout << "Lua chon khong hop le, vui long chon lai." << endl;
         }}
         while (choice1 != 4);
