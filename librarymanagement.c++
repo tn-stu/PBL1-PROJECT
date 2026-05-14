@@ -485,20 +485,36 @@ int main(){
 				//9.Khoa tai khoan vi pham
 				else if(choice2 == 9){
 					string username;
+					char confirm;
 					cin.ignore();
 					cout << "Nhap tai khoan can khoa: ";
 					getline(cin, username);
-					l.Lock_User(username);
-					l.saveFile_User();
+					cout << "Ban co chac chan muon KHOA tai khoan nay? (y/n): ";
+					cin >> confirm;
+					if(confirm == 'y' || confirm == 'Y'){
+					    l.Lock_User(username);
+					    l.saveFile_User();
+					}
+					else if(confirm == 'n' || confirm == 'N'){
+                        cout << "Da huy thao tac khoa tai khoan!" << endl;
+                    }
 				}
 				//10.Mo khoa tai khoan User
 				else if(choice2 == 10){
 					string username;
+					char confirm;
 					cin.ignore();
 					cout << "Nhap tai khoan can mo khoa: ";
 					getline(cin, username);
-					l.Unlock_User(username);
-					l.saveFile_User();
+					cout << "Ban co chac chan muon MO KHOA tai khoan nay? (y/n): ";
+                    cin >> confirm;
+					if(confirm == 'y' || confirm == 'Y'){
+					    l.Unlock_User(username);
+					    l.saveFile_User();
+					}
+					else if(confirm == 'n' || confirm == 'N'){
+                        cout << "Da huy thao tac mo khoa tai khoan!" << endl;
+                    }
 				}
 				//11.Them tai khoan admin
 				else if(choice2 == 11){
