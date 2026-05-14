@@ -1,0 +1,15 @@
+DUT001 |Lap Trinh C++ Co Ban                         |12
+DUT002 |Cau Truc Du Lieu Va Giai Thuat               |8
+DUT003 |Ky Thuat Lap Trinh Huong Doi Tuong           |10
+DUT004 |Clean Code                                   |5
+DUT005 |Introduction to Algorithms                   |4
+DUT006 |Database System Concepts                     |6
+DUT007 |Computer Networks                            |7
+DUT008 |Operating System Principles                  |3
+DUT009 |Tri Tue Nhan Tao Co Ban                      |9
+DUT010 |Python Programming for Beginners             |11
+DUT011 |Giai Tich 1                                  |15
+DUT012 |Dai So Tuyen Tinh                            |13
+DUT013 |Vat Ly Dai Cuong                             |14
+DUT014 |English for Information Technology           |20
+DUT015 |Design Patterns                              |51
