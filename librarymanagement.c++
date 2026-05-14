@@ -486,7 +486,7 @@ int main(){
 				else if(choice2 == 9){
 					string username;
 					cin.ignore();
-					cout << "Nhap tai khoan can khoa: " << endl;
+					cout << "Nhap tai khoan can khoa: ";
 					getline(cin, username);
 					l.Lock_User(username);
 					l.saveFile_User();
@@ -495,7 +495,7 @@ int main(){
 				else if(choice2 == 10){
 					string username;
 					cin.ignore();
-					cout << "Nhap tai khoan can mo khoa: " << endl;
+					cout << "Nhap tai khoan can mo khoa: ";
 					getline(cin, username);
 					l.Unlock_User(username);
 					l.saveFile_User();
