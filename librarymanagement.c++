@@ -365,7 +365,7 @@ int main(){
 	l.loadFile_User();
 	l.loadFile_Admin();
 	l.loadFile_Books();
-    int choice1,choice2,choice3,choice4;
+    int choice1, choice2, choice3, choice4;
     do {
         cout<<"==========================================="<<endl;
 	    cout<<"||1.Dang nhap voi tu cach la Admin       ||"<<endl;
@@ -440,7 +440,7 @@ int main(){
 				else if (choice2==2){
 					string keyword;
 					cout << "Nhap ID hoac ten sach can cap nhat thong tin: "; 
-					cin.ignore(); 
+					cin.ignore();
 					getline(cin, keyword);
 					Book* book = l.Find_book(keyword);
 					if (book!=nullptr) {
@@ -460,7 +460,7 @@ int main(){
 				else if (choice2==3){
 					string keyword;
 					cout << "Nhap ID hoac ten sach can xoa: "; 
-					cin.ignore(); 
+					cin.ignore();
 					getline(cin, keyword);
 					Book* book = l.Find_book(keyword);
 					if (book == nullptr) {
