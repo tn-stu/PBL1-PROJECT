@@ -6,8 +6,12 @@
 #include <iomanip>
 #include <algorithm>// dung de su dung remove
 using namespace std;
+struct Date {
+    int d, m, y;
+};
+
 class Book {
-private:
+protected:
 	string id;
 	string bookname;
 	int quantity;
@@ -26,6 +30,22 @@ public:
 			cout << "So luong sach khong hop le!" << endl;
 		}
 	}
+};
+class BorrowBook:public Book{
+	private:
+	string username;
+	Date borrowdate;
+	Date returndate;
+	bool status;
+	public:
+	BorrowBook(const string& id, const string& bookname, int quantity, const string& username, const Date& borrowdate, const Date& returndate = {0,0,0}):
+	Book(id, bookname, quantity), username(username), borrowdate(borrowdate), returndate(returndate){};
+	string getUsername() const { return username; }
+	Date getBorrowDate() const { return borrowdate; }
+	Date getReturnDate() const { return returndate; }
+	void setUsername(const string& username) { this->username = username; }
+	void setBorrowDate(const Date& borrowdate) { this->borrowdate = borrowdate; }
+	void setReturnDate(const Date& returndate) { this->returndate = returndate; }
 };
 class User{
 	protected:
@@ -57,10 +77,34 @@ class Librarysystem{
 		vector<Admin> Admins;
 		vector<User> Users;
 		vector<Book> Books;
+		vector<BorrowBook> BorrowBooks;
 		static string FILENAMEUSER;
 		static string FILENAMEADMIN;
 		static string FILENAMEBOOKS;
+		static string FILENAMEBORROWBOOK;
 	public:
+	//ham kiem tra ngay thang nam 
+	bool isLeap(int y) {
+    return (y % 400 == 0) || (y % 4 == 0 && y % 100 != 0);}
+	int daysInMonth(int m, int y) {
+    if (m == 2){
+		if (isLeap(y))
+		{return 29;}
+		else{
+		return 28;
+		}}
+    if (m == 4 || m == 6 || m == 9 || m == 11) return 30;
+    return 31;}
+//ham tính số ngày từ 1/1/0000 đến ngày hiện tại để so sánh ngày trả sách và ngày hiện tại xem có quá hạn hay không
+	int toDays(Date date) {
+    int days = date.y * 365;
+    for (int i = 1; i < date.y; i++) {
+        if (isLeap(i)) days++;}
+    for (int i = 1; i < date.m; i++) {
+        days += daysInMonth(i, date.y);}
+    days += date.d;
+    return days;}
+// them Admin account
 	void Adminaccount(const Admin& a){
 		Admins.push_back(a);}
 	//Check account để sign in
@@ -98,8 +142,12 @@ class Librarysystem{
 				cout << "Ten dang nhap da ton tai. Vui long chon ten dang nhap khac!" << endl;
 				return false;
 			}
-			if (admin.getEmail() == email || admin.getPhonenumber() == phonenumber) {
-				cout << "Tai khoan da ton tai. Vui long nhap lai thong tin!" << endl;
+			if (admin.getEmail() == email) {
+				cout << "Gmail da duoc dang ky. Vui long nhap lai thong tin!" << endl;
+				return false;
+			}
+			if(admin.getPhonenumber() == phonenumber) {
+				cout << "So dien thoai da duoc dang ky. Vui long nhap lai thong tin!" << endl;
 				return false;
 			}
 		}
@@ -117,8 +165,12 @@ class Librarysystem{
 				cout << "Ten dang nhap da ton tai. Vui long chon ten dang nhap khac!" << endl;
 				return false;
 			}
-			if (user.getEmail() == email || user.getPhonenumber() == phonenumber) {
-				cout << "Tai khoan da ton tai. Vui long nhap lai thong tin!" << endl;
+			if (user.getEmail() == email) {
+				cout << "Gmail da duoc dang ky. Vui long nhap lai thong tin!" << endl;
+				return false;
+			}
+			if(user.getPhonenumber() == phonenumber) {
+				cout << "So dien thoai da duoc dang ky. Vui long nhap lai thong tin!" << endl;
 				return false;
 			}
 		}
@@ -225,13 +277,64 @@ class Librarysystem{
             return;}   
         cout << left;
         cout<<"|"<<setw(15)<<"ID SACH"
-            <<"|"<<setw(30)<<"TEN SACH"
+            <<"|"<<setw(50)<<"TEN SACH"
             <<"|"<<setw(10)<<"SO LUONG"<<"|"<<endl;
         for(const auto& s: Books){
             cout<<"|"<<setw(15)<<s.getID()
-                <<"|"<<setw(30)<<s.getBookname()
+                <<"|"<<setw(50)<<s.getBookname()
                 <<"|"<<setw(10)<<s.getQuantity()
 				<<"|"<<endl;}}
+	//Addnew borrow book
+	void AddBorrowBook(const string& id, const string& bookname, int quantity, const string& username, const Date& borrowdate, const Date& returndate){
+		BorrowBooks.push_back(BorrowBook(id, bookname, quantity, username, borrowdate, returndate));}
+	void loadFile_BorrowBook() {
+		ifstream inFile(FILENAMEBORROWBOOK);
+		if(!inFile){
+		cout << "Khong the mo file borrowBook.txt!" << endl;
+		return;
+		}
+		string line;
+		while (getline(inFile, line)) {
+			stringstream ss(line);
+			string id, bookname, username;
+			int quantity;
+			Date borrowdate, returndate;
+			getline(ss, id,'|');
+			getline(ss, bookname,'|');
+			ss >> quantity; ss.ignore();
+			getline(ss, username,'|');
+			ss >> borrowdate.d; ss.ignore();
+			ss >> borrowdate.m; ss.ignore();
+			ss >> borrowdate.y; ss.ignore();
+			ss >> returndate.d; ss.ignore();
+			ss >> returndate.m; ss.ignore();
+			ss >> returndate.y; ss.ignore();
+			BorrowBooks.push_back(BorrowBook(id, bookname, quantity, username, borrowdate, returndate));
+		}
+		inFile.close();
+	}
+	void saveFile_BorrowBook() {
+		ofstream outFile(FILENAMEBORROWBOOK);
+		if(!outFile){
+		cout << "Khong the ghi file borrowBook.txt!" << endl;
+		return;
+		}
+		for (const auto& borrow : BorrowBooks) {
+			outFile << borrow.getID() << "|" 
+			        << borrow.getBookname() << "|" 
+					<< borrow.getQuantity() << "|"
+					<< borrow.getUsername() << "|"
+					<< borrow.getBorrowDate().d << "/"
+					<< borrow.getBorrowDate().m << "/"
+					<< borrow.getBorrowDate().y<<"|"
+					<< borrow.getReturnDate().d << "/"
+					<< borrow.getReturnDate().m << "/"
+					<< borrow.getReturnDate().y
+					<< endl;
+		}
+		outFile.close();
+	}
+		
 	
     void loadFile_Books() {
 		ifstream inFile(FILENAMEBOOKS);
@@ -342,14 +445,14 @@ class Librarysystem{
 		cout << "|" << setw(15) << "TEN NGUOI DUNG"
              << "|" << setw(20) << "HO VA TEN"
              << "|" << setw(15) << "SO DIEN THOAI"
-             << "|" << setw(25) << "EMAIL" 
+             << "|" << setw(30) << "EMAIL" 
 			 << "|" << setw(10) << "STATUS"
 			 << "|" << endl;
 		for(const auto& user : Users){
         cout << "|" << setw(15) << user.getName()
              << "|" << setw(20) << user.getFullname()
              << "|" << setw(15) << user.getPhonenumber()
-             << "|" << setw(25) << user.getEmail() 
+             << "|" << setw(30) << user.getEmail() 
 			 << "|" << setw(10)
              << (user.isLocked() ? "LOCKED" : "ACTIVE") // toán tử [(condition) ? A : B] -> đúng lấy A sai lấy B
 			 << "|" << endl;
@@ -359,12 +462,14 @@ class Librarysystem{
 string Librarysystem::FILENAMEADMIN = "admin.txt";
 string Librarysystem::FILENAMEUSER = "user.txt";
 string Librarysystem::FILENAMEBOOKS = "books.txt";
+string Librarysystem::FILENAMEBORROWBOOK = "borrowBook.txt";
 
 int main(){
 	Librarysystem l;
 	l.loadFile_User();
 	l.loadFile_Admin();
 	l.loadFile_Books();
+	l.loadFile_BorrowBook();
     int choice1, choice2, choice3, choice4;
     do {
         cout<<"==========================================="<<endl;
@@ -474,7 +579,9 @@ int main(){
 				else if(choice2 == 4){
 					l.BookList();}
 				//5.Duyet yeu cau muon sach
-				else if(choice2 == 5){}
+				else if(choice2 == 5){
+
+				}
 				//6.Xac nhan tra sach
 				else if(choice2 == 6){}
 				//7.Danh sach sach muon qua han
@@ -523,13 +630,9 @@ int main(){
 					bool value = false;
 					while (!value) {
 					cout<<"Ten dang nhap: ";getline(cin, nameadmin);
-					cout<<endl;
 					cout<<"Mat khau: ";getline(cin, password);
-					cout<<endl;
 					cout<<"Ho va ten: "; getline(cin, fullname);
-					cout<<endl;
 					cout<<"So dien thoai: "; getline(cin, phonenumber);
-					cout<<endl;
 					cout<<"Email: "; getline(cin, email);
 					if (l.Add_New_Admin(nameadmin, password, fullname, phonenumber, email)){
 						cout << "Them tai khoan thanh cong!" << endl;
@@ -596,7 +699,37 @@ int main(){
 				}
 			}
 			//3.Gui yeu cau muon sach
-			else if (choice3 == 3){}
+			else if (choice3 == 3){
+				string id, bookname;
+				int quantity;
+				char confirm;
+				Date borrowdate, returndate;
+				cin.ignore();
+				cout << "Nhap ID sach can muon: "; getline(cin, id);
+				if(l.Find_book(id) != nullptr) {
+				cout << "Sach ban can muon la " << l.Find_book(id)->getBookname() << " (y/n)?" << endl;
+				cin >> confirm;
+				    if (confirm == 'y' || confirm == 'Y') {
+					    cout << "Nhap so luong sach can muon: "; cin >> quantity;
+					    cout << "Nhap ngay muon: " << endl;
+						cout <<"Ngay: "; cin >> borrowdate.d;
+						cout <<"Thang: "; cin >> borrowdate.m; 
+						cout <<"Nam: "; cin >> borrowdate.y;
+					    cout << "Nhap ngay tra du kien (Khong qua 30 ngay ke tu ngay muon): " << endl; 
+						cout <<"Ngay: "; cin >> returndate.d;
+						cout <<"Thang: "; cin >> returndate.m; 
+						cout <<"Nam: "; cin >> returndate.y;
+						cout <<"Gui yeu cau muon sach thanh cong!" << endl;
+				}
+				    else if (confirm == 'n' || confirm == 'N') {
+					    cout << "Huy yeu cau muon sach." << endl;
+				}
+				}
+				else { cout << "Khong tim thay sach!" << endl; }
+
+				l.AddBorrowBook(id, l.Find_book(id)->getBookname(), quantity, nameuser, borrowdate, returndate);
+				l.saveFile_BorrowBook();
+			}
 			//4.Thong ke sach dang muon va ngay tra
 			else if (choice3 == 4){}
 			//5.Doi mat khau
