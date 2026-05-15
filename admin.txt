@@ -1,4 +1,4 @@
-AdminMinh       |111 |Le Minh Nhat          |0000000000 |stormocean08@gmail.com
-AdminNganSmart  |222 |Mai Thi Thao Ngan     |1111111111 |thaonganmai13@gmail.com
-MinMinStipud    |333 |Minh Minh Le          |2222222222 |minmin80@gmail.com
-NgNgSoSmart     |444 |Le Nhat Minh          |9392929232 |kkk@gmail.com
+AdminMinh|111|Le Minh Nhat|0000000000|stormocean08@gmail.com
+AdminNganSmart|222|Mai Thi Thao Ngan|1111111111|thaonganmai13@gmail.com
+MinMinStipud|333|Minh Minh Le|2222222222|minmin80@gmail.com
+NgNgSoSmart|444|Le Nhat Minh|9392929232|kkk@gmail.com

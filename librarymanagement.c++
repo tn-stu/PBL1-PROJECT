@@ -620,8 +620,6 @@ int main(){
 				l.saveFile_User();
 			}
 		    } while (choice3 != 7);}
-			else {
-				cout << "Sai tai khoan hoac mat khau!" << endl;}
 		}
 		//Dang ky tai khoan User
 		else if (choice1==3){

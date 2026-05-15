@@ -1,4 +1,4 @@
-NhatMinhStipud  |123       |Le Nhat Minh          |0935505846 |stormocean80@gmail.com        |0
-ThaoNganSmart   |456       |Mai Thi Thao Ngan     |0702357952 |thaonganmai1301@gmail.com     |0
-MinMinStupid    |789       |Minh Le Nhat          |1234567890 |minhnhat789@gmail.com         |0
-tntntn          |131       |Thao Ngan Mai         |0987654321 |trungnguyen131@gmail.com      |0
+NhatMinhStipud|123|Le Nhat Minh|0935505846|stormocean80@gmail.com|1
+ThaoNganSmart|456|Mai Thi Thao Ngan|0702357952|thaonganmai1301@gmail.com|0
+MinMinStupid|789|Minh Le Nhat|1234567890|minhnhat789@gmail.com|0
+tntntn|131|Thao Ngan Mai|0987654321|trungnguyen131@gmail.com|0
