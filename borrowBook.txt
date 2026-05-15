@@ -1,2 +1,4 @@
 DUT005|Introduction to Algorithms|1|tntntn|15/5/2026|25/5/2026
 DUT001|Lap Trinh C++ Co Ban|2|tntntn|15/6/2026|20/6/2026
+DUT001|Lap Trinh C++ Co Ban|13|tntntn|15/5/2026|18/5/2026
+DUT009|Tri Tue Nhan Tao Co Ban|11|tntntn|15/5/2026|20/5/2026

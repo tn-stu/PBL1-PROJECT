@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include <fstream> 
 #include <sstream> 
 #include <string> 
@@ -706,7 +707,8 @@ int main(){
 				Date borrowdate, returndate;
 				cin.ignore();
 				cout << "Nhap ID sach can muon: "; getline(cin, id);
-				if(l.Find_book(id) != nullptr) {
+				Book* book = l.Find_book(id);
+				if(book != nullptr) {
 				cout << "Sach ban can muon la " << l.Find_book(id)->getBookname() << " (y/n)?" << endl;
 				cin >> confirm;
 				    if (confirm == 'y' || confirm == 'Y') {
@@ -719,6 +721,8 @@ int main(){
 						cout <<"Ngay: "; cin >> returndate.d;
 						cout <<"Thang: "; cin >> returndate.m; 
 						cout <<"Nam: "; cin >> returndate.y;
+						l.AddBorrowBook(id, book->getBookname(), quantity, nameuser, borrowdate, returndate);
+				        l.saveFile_BorrowBook();
 						cout <<"Gui yeu cau muon sach thanh cong!" << endl;
 				}
 				    else if (confirm == 'n' || confirm == 'N') {
@@ -726,9 +730,6 @@ int main(){
 				}
 				}
 				else { cout << "Khong tim thay sach!" << endl; }
-
-				l.AddBorrowBook(id, l.Find_book(id)->getBookname(), quantity, nameuser, borrowdate, returndate);
-				l.saveFile_BorrowBook();
 			}
 			//4.Thong ke sach dang muon va ngay tra
 			else if (choice3 == 4){}
@@ -769,9 +770,12 @@ int main(){
 			cout << "Dang ky tai khoan thanh cong!" << endl;
 			l.saveFile_User();
 		    value = true;}
-		}
-	}
-	 	else if (choice1 != 4) {
+		    }
+	    }
+		else if (choice1 == 4) {
+            break;
+        }
+	 	else{
             cout << "Lua chon khong hop le, vui long chon lai." << endl;
         }}
         while (choice1 != 4);
